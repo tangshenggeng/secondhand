@@ -97,7 +97,7 @@ public class RechargeCustController {
 	
 	
 	/**
-	 * 得到所有提现
+	 * 得到所有客户充值或消费状态
 	 * @return 
 	 * @throws ParseException 
 	 * */
@@ -112,41 +112,28 @@ public class RechargeCustController {
 		HashMap<String, Object> afterMap = utils.analysisKeyWordsList(arrayList);
 		EntityWrapper<RechargeCust> wrapper = new EntityWrapper<>();
 		String name = (String) afterMap.get("name");
+		String sort = (String) afterMap.get("sort");
+		if(!sort.equals("0")) {
+			wrapper.eq("recharge_sort", sort);
+		}
 		if(!name.equals("")) {
 			List<Integer> custIds = getCustId(name); //如果输入了客户名，通过客户名得到技师id
 			wrapper.in("recharge_cust_id", custIds);
 		}
 		
-		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-		String start_date = (String) afterMap.get("start_date");
-		String end_date = (String) afterMap.get("end_date");
-		String min_integral = (String) afterMap.get("min_integral");
-		String max_integral = (String) afterMap.get("max_integral");
 		String start_money = (String) afterMap.get("start_money");
 		String end_money = (String) afterMap.get("end_money");
-		if(!start_date.equals("") && !end_date.equals("")) {
-			Date startDate = format1.parse(start_date);
-			Date endDate = format1.parse(end_date);
-			wrapper.between("create_time", startDate, endDate);
-		}
-		if(!min_integral.equals("") && !max_integral.equals("")) {
-			int min = Integer.parseInt(min_integral);
-			int max = Integer.parseInt(max_integral);
-			wrapper.between("recharge_integral", min, max);
-		}
 		if(!start_money.equals("") && !end_money.equals("")) {
-			int start = Integer.parseInt(start_money);
-			int end = Integer.parseInt(end_money);
+			Float start = Float.parseFloat(start_money);
+			Float end = Float.parseFloat(end_money);
 			wrapper.between("recharge_money", start, end);
 		}
 		String rechargeState = (String) afterMap.get("rechargeState");
-		if(!rechargeState.equals("0")) {
-			wrapper.eq("recharge_state",rechargeState);
-		}
+		wrapper.eq("recharge_state","100");
 		Page<Map<String, Object>> selectMapsPage = rechargeSer.selectMapsPage(new Page<>(page, limit), wrapper);
 		Map<String,Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("status",0);
-		resultMap.put("message","所有充值信息");
+		resultMap.put("message","所有同意的交易");
 		resultMap.put("total",selectMapsPage.getTotal());
 		resultMap.put("data",selectMapsPage.getRecords());
 		return resultMap;
@@ -155,7 +142,7 @@ public class RechargeCustController {
 	
 	private List<Integer> getCustId(String name) {
 		EntityWrapper<Cust> wrapper = new EntityWrapper<>();
-		wrapper.like("cust_name", name).or().like("cust_nick", name).or().like("cust_email", name);
+		wrapper.like("cust_name", name).orNew().like("cust_nick", name).orNew().like("cust_email", name);
 		List<Cust> list = custSer.selectList(wrapper);
 		ArrayList<Integer> custIds = new ArrayList<>();
 		for (Cust cust : list) {
@@ -166,9 +153,9 @@ public class RechargeCustController {
 
 
 	//=======页面跳转=========
-	@RequestMapping(value="/toCustIntegralPage",method=RequestMethod.GET)
+	@RequestMapping(value="/toWaitRechargePage",method=RequestMethod.GET)
 	public String toCustIntegralPage() {
-		return "/integral/recharge-integral";
+		return "/integral/wait-recharge";
 	}
 	
 }

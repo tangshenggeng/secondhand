@@ -56,6 +56,20 @@ public class Cust extends Model<Cust> {
      */
     private String custHeader;
     /**
+     * 客户的状态
+     */
+    private String custState;
+    /**
+     * 会员开始时间
+     * */
+    private Date vipStart;
+    
+    /**
+     * 会员结束时间
+     * */
+    private Date vipEnd;
+    
+    /**
      * 注册时间
      */
     @TableField(fill = FieldFill.INSERT)
@@ -177,12 +191,38 @@ public class Cust extends Model<Cust> {
 		this.formCode = formCode;
 	}
 
+	public String getCustState() {
+		return custState;
+	}
+
+	public void setCustState(String custState) {
+		this.custState = custState;
+	}
+
+	public Date getVipStart() {
+		return vipStart;
+	}
+
+	public void setVipStart(Date vipStart) {
+		this.vipStart = vipStart;
+	}
+
+	public Date getVipEnd() {
+		return vipEnd;
+	}
+
+	public void setVipEnd(Date vipEnd) {
+		this.vipEnd = vipEnd;
+	}
+
 	@Override
 	public String toString() {
 		return "Cust [custId=" + custId + ", custName=" + custName + ", custNick=" + custNick + ", custPassword="
 				+ custPassword + ", custEmail=" + custEmail + ", custIntegral=" + custIntegral + ", custHeader="
-				+ custHeader + ", createTime=" + createTime + ", isDel=" + isDel + ", formPwd1=" + formPwd1
-				+ ", formPwd2=" + formPwd2 + ", formCode=" + formCode + "]";
+				+ custHeader + ", custState=" + custState + ", vipStart=" + vipStart + ", vipEnd=" + vipEnd
+				+ ", createTime=" + createTime + ", isDel=" + isDel + ", formPwd1=" + formPwd1 + ", formPwd2="
+				+ formPwd2 + ", formCode=" + formCode + "]";
 	}
+	
 
 }

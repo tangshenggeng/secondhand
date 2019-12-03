@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>登录注册</title>
+<title>客户信息</title>
 
 <!-- Bootstrap -->
 <link href="${PATH}/pages/static/css/bootstrap.min.css" rel="stylesheet">
@@ -180,6 +180,15 @@
               <label>昵称</label>
               <input type="text" value="${cust.custNick}" readonly="readonly" class="form-control">
             </div>
+			<div class="form-group">
+              <label>会员有效期</label>
+              <input type="text" style="color: orange" value="${end}" readonly="readonly" class="form-control">
+            </div>
+            <div class="form-group">
+              <label>昵称</label>
+              <input type="text" value="${cust.custNick}" readonly="readonly" class="form-control">
+            </div>
+            
             <div class="form-group">
               <label>Email</label>
               <input type="text" value="${cust.custEmail}" readonly="readonly" class="form-control">
@@ -188,6 +197,7 @@
               <label>积分</label>
               <input type="text" value="${cust.custIntegral}" readonly="readonly" class="form-control">
               <input type="button" class="layui-btn layui-btn-primary custRecharge" value="点击充值积分"/>
+              &nbsp;&nbsp;<input type="button" class="layui-btn layui-btn-primary" id="vipBtn" value="点击升级会员"/>
             </div>
             
           </div>
@@ -390,5 +400,45 @@ $("#confirm-recharge").click(function() {
 		});
 	})
 });
+
+layui.use('layer', function() {
+	var layer = layui.layer;
+	$("#vipBtn").click(function(){
+	var id = $("#rechargeCustId").val();
+	layer.confirm('确定花费一百积分升级为会员吗？', {icon: 3, title:'提示'}, function(index){
+		  $.ajax({
+			  url:"${PATH}/cust/upgradeVIP/"+id,
+			  method:"get",
+			  success : function(res) {
+					if (res.code == 100) {
+						layer.msg(res.extend.msg, {
+							icon : 6,
+						}, function() {
+							location.reload();
+						})
+					} else {
+						layer.msg(res.extend.msg, {
+							icon : 5
+						}, function() {
+							location.reload();
+						})
+					}
+				},
+				error : function() {
+					layer.msg("系统错误！", {
+						icon : 5
+					})
+				}
+		  });
+		  layer.close(index);
+		});
+		
+		
+	});
+
+	
+	
+})
+
 </script>
 </html>

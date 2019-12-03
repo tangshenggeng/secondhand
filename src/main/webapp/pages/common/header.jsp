@@ -9,6 +9,7 @@
 			<c:when test="${sessionScope.nick == null}">
 				<ul class="cols selection">
 					<li><a class="login_toggle" href="${PATH}/pages/cust/login.jsp">登录  / 注册</a></li>
+					<li><a class="login_toggle" href="${PATH}/pages/admin-login.jsp">后台登录</a></li>
 				</ul>
 			</c:when>
 			<c:otherwise>
@@ -45,7 +46,7 @@
 					  	<div class="emp_entry">
 					      <div class="emp_title">
 					      	<img style="width: 25px;height: 25px" alt="头像" src="${sessionScope.header}">
-					      		${sessionScope.nick}
+					      		${sessionScope.nick}<span style="color:orange">&nbsp;&nbsp;${state}</span>
 					      	</div>
 					      <div class="list">
 				              <a class="list-entry" href="${PATH}/cust/getCustInfo/${sessionScope.id}/${sessionScope.name}">

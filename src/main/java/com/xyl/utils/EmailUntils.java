@@ -21,10 +21,9 @@ public class EmailUntils {
     private static final String emailSubject = "来自“遇您识货”的通知";
     
     /**
-     * 包月到期
-     * 
+     * 后台添加客户通知
      * */
-    public boolean expireOrder(String receive ,String orderNumber) {
+    public boolean addCustByAdmin(Map map) {
     	try {
             HtmlEmail email = new HtmlEmail();
             // 配置信息
@@ -33,7 +32,42 @@ public class EmailUntils {
             email.setAuthentication(senderEmail,userInfo);
             email.setCharset(chartset);
             email.setSubject(emailSubject);
-            String sendHtml = "尊敬的客户您好！<hr>您在匠心衣橱的包月已到期，感谢您的支持！订单号为：<span style='color:orange;'>"+orderNumber+"</span>";
+            String sendHtml = "尊敬的客户您好！<hr>“遇您识货”后台已为您注册为："+map.get("sort")+"用户，初始密码为：xnsh123456";
+            email.setHtmlMsg(sendHtml);
+            // 收件人
+            if (null != map.get("custEmail")) {
+               email.addTo((String)map.get("custEmail"));
+            }
+            //发送
+            try {
+				email.send();
+				return true;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}
+            
+        } catch (EmailException e) {
+            e.printStackTrace();
+            return false;
+        } 
+    }
+    
+    /**
+     * 会员到期
+     * 
+     * */
+    public boolean expireOrder(String[] receive) {
+    	try {
+            HtmlEmail email = new HtmlEmail();
+            // 配置信息
+            email.setHostName(hostName);
+            email.setFrom(senderEmail,senderNick);
+            email.setAuthentication(senderEmail,userInfo);
+            email.setCharset(chartset);
+            email.setSubject(emailSubject);
+            String sendHtml = "尊敬的客户您好！<hr>您在“遇您识货”的会员已到期，感谢您的支持！";
             email.setHtmlMsg(sendHtml);
             // 收件人
             if (null != receive) {
@@ -58,7 +92,6 @@ public class EmailUntils {
      * 客户下单消费
      * 消费多少
      * 消费方式
-     * 消费时间
      * 余额多少
      * */
     public boolean addOrder(String receive, String way,Float price,Float balance) {
@@ -171,7 +204,7 @@ public class EmailUntils {
     	} 
     }
     /**
-     * 反驳和同意通用的邮件
+     * 反驳和同意通用的邮件（客户）
      * */
     public boolean sendEmailsRollBack(String receive ,String isOwe,Map map,Float nowMoney) {
     	Long object = (Long) map.get("createTime");

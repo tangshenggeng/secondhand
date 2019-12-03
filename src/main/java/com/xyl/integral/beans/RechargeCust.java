@@ -50,6 +50,10 @@ public class RechargeCust extends Model<RechargeCust> {
      */
     private Float newIntegral;
     /**
+     * 类型（充值or消费）
+     * */
+    private String rechargeSort;
+    /**
      * 充值时间
      */
     @TableField(fill = FieldFill.INSERT)
@@ -143,18 +147,21 @@ public class RechargeCust extends Model<RechargeCust> {
         return this.rechargeId;
     }
 
-    @Override
-    public String toString() {
-        return "RechargeCust{" +
-        ", rechargeId=" + rechargeId +
-        ", rechargeCustId=" + rechargeCustId +
-        ", rechargeMoney=" + rechargeMoney +
-        ", oldIntegral=" + oldIntegral +
-        ", rechargeIntegral=" + rechargeIntegral +
-        ", newIntegral=" + newIntegral +
-        ", createTime=" + createTime +
-        ", rechargeState=" + rechargeState +
-        ", isDel=" + isDel +
-        "}";
-    }
+	public String getRechargeSort() {
+		return rechargeSort;
+	}
+
+	public void setRechargeSort(String rechargeSort) {
+		this.rechargeSort = rechargeSort;
+	}
+
+	@Override
+	public String toString() {
+		return "RechargeCust [rechargeId=" + rechargeId + ", rechargeCustId=" + rechargeCustId + ", rechargeMoney="
+				+ rechargeMoney + ", oldIntegral=" + oldIntegral + ", rechargeIntegral=" + rechargeIntegral
+				+ ", newIntegral=" + newIntegral + ", rechargeSort=" + rechargeSort + ", createTime=" + createTime
+				+ ", rechargeState=" + rechargeState + ", isDel=" + isDel + "]";
+	}
+
+  
 }

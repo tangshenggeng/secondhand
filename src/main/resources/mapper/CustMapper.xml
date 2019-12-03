@@ -14,13 +14,14 @@
         <result column="cust_email" property="custEmail" />
         <result column="cust_integral" property="custIntegral" />
         <result column="cust_header" property="custHeader" />
+        <result column="cust_state" property="custState" />
         <result column="create_time" property="createTime" />
         <result column="is_del" property="isDel" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        cust_id, cust_name, cust_nick, cust_password, cust_email, cust_integral, cust_header, create_time, is_del
+        cust_id, cust_name, cust_nick, cust_password, cust_email, cust_integral, cust_header,cust_state, create_time, is_del
     </sql>
 
 </mapper>
