@@ -161,53 +161,13 @@ public class EmailUntils {
             return false;
         } 
     }
-    /**
-     * 反驳和同意通用的邮件
-     * */
-    public boolean sendEmailsCurrency(String receive ,String isSuccess,Map map) {
-    	Long object = (Long) map.get("createTime");
-    	int cashMoney = (int) map.get("cashMoney");
-    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这个是你要转成后的时间的格式
-    	String sd = sdf.format(new Date(object)); 
-    	try {
-    		HtmlEmail email = new HtmlEmail();
-    		// 配置信息
-    		email.setHostName(hostName);
-    		email.setFrom(senderEmail,senderNick);
-    		email.setAuthentication(senderEmail,userInfo);
-    		email.setCharset(chartset);
-    		email.setSubject(emailSubject);
-    		String sendHtml = null;
-    		if(isSuccess.equals("success")) {
-    			sendHtml = "尊敬的客户您好！<hr>您的账户在<span style='color:blue;'>"+sd+"</span>，提现"+cashMoney+"元成功！<br>平台收取10%费用，最终到账<span style='color:blue;'>"+(cashMoney*0.9)+"</span>元注意查收！";
-    		}else{
-    			sendHtml = "尊敬的客户您好！<hr>抱歉！您的账户<span style='color:blue;'>出现异常！操作失败！</span>！";
-    		}
-    		email.setHtmlMsg(sendHtml);
-    		// 收件人
-    		if (null != receive) {
-    			email.addTo(receive);
-    		}
-    		//发送
-    		try {
-    			email.send();
-    			return true;
-    		} catch (Exception e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    			return false;
-    		}
-    		
-    	} catch (EmailException e) {
-    		e.printStackTrace();
-    		return false;
-    	} 
-    }
+    
     /**
      * 反驳和同意通用的邮件（客户）
      * */
     public boolean sendEmailsRollBack(String receive ,String isOwe,Map map,Float nowMoney) {
     	Long object = (Long) map.get("createTime");
+    	String rechargeSort = (String) map.get("rechargeSort");
     	int rechargeMoney = (int) map.get("rechargeMoney");
     	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这个是你要转成后的时间的格式
     	String sd = sdf.format(new Date(object)); 
@@ -221,9 +181,9 @@ public class EmailUntils {
     		email.setSubject(emailSubject);
     		String sendHtml = null;
     		if(isOwe.equals("true")) {
-    			sendHtml = "尊敬的客户您好！<hr>您的账户在<span style='color:blue;'>"+sd+"</span>，充值"+rechargeMoney+"元失败！<br>并且由于您的消费使得当前积分<span style='color:blue;'>"+nowMoney+"</span>！请您尽快充值！";
+    			sendHtml = "尊敬的客户您好！<hr>您的账户在<span style='color:blue;'>"+sd+"</span>，"+rechargeSort+""+rechargeMoney+"元失败！<br>并且由于您的消费使得当前积分<span style='color:blue;'>"+nowMoney+"</span>！请您尽快充值！";
     		}else{
-    			sendHtml = "尊敬的客户您好！<hr>抱歉！您的账户出现异常在<span style='color:blue;'>"+sd+"</span>，充值"+rechargeMoney+"元失败！<br>";
+    			sendHtml = "尊敬的客户您好！<hr>抱歉！您的账户出现异常在<span style='color:blue;'>"+sd+"</span>，"+rechargeSort+""+rechargeMoney+"元失败！<br>";
     		}
     		email.setHtmlMsg(sendHtml);
     		// 收件人

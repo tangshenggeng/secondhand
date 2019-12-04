@@ -46,7 +46,7 @@
 					  	<div class="emp_entry">
 					      <div class="emp_title">
 					      	<img style="width: 25px;height: 25px" alt="头像" src="${sessionScope.header}">
-					      		${sessionScope.nick}<span style="color:orange">&nbsp;&nbsp;${state}</span>
+					      		${sessionScope.nick}<span style="color:orange">&nbsp;&nbsp;${sessionScope.state}</span>
 					      	</div>
 					      <div class="list">
 				              <a class="list-entry" href="${PATH}/cust/getCustInfo/${sessionScope.id}/${sessionScope.name}">
@@ -105,17 +105,18 @@
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                 <i class="fa fa-bars"></i>
             </button>
-        <a class="navbar-brand" href="index.html"><img src="${PATH}/pages/static/images/logo.png" class="logo" alt=""></a>
+        <a class="navbar-brand" href="${PATH}/pages/index.jsp"><img src="${PATH}/pages/static/images/logo.png" class="logo" alt=""></a>
       </div>
       <!-- End Header Navigation -->
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="navbar-menu">
         <ul class="nav navbar-nav navbar-left" data-in="fadeIn" data-out="fadeOut">
+        	<li><a href="${PATH}/pages/index.jsp">首页</a></li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Home</a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">商品分类</a>
             <ul class="dropdown-menu">
-              <li><a href="index.html">Home Shop 1</a></li>
+              <li><a href="index.html">衣服</a></li>
               <li><a href="index2.html">Home Shop 2</a></li>
               <li><a href="index3.html">Home V3 — Collection: Men</a></li>
               <li><a href="index4.html">Home V4 — Collection: Women</a></li>
@@ -126,7 +127,7 @@
             </ul>
           </li>
           <li class="dropdown megamenu-fw">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Shop Styles</a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">品牌分类</a>
             <ul class="dropdown-menu half-content" role="menu">
               <li>
                 <div class="row">
@@ -161,7 +162,7 @@
             </ul>
           </li>
           <li class="dropdown megamenu-fw">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pages</a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">鉴定师分类</a>
             <ul class="dropdown-menu megamenu-content" role="menu">
               <li>
                 <div class="row">
@@ -222,9 +223,9 @@
               </li>
             </ul>
           </li>
-          <li><a href="blog.html">Blog</a></li>
+          <!-- <li><a href="blog.html">Blog</a></li> -->
           <li class="dropdown megamenu-fw">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Elements</a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">加入鉴定师</a>
             <ul class="dropdown-menu megamenu-content" role="menu">
               <li>
                 <div class="row">
@@ -286,7 +287,6 @@
               </li>
             </ul>
           </li>
-          <li><a href="#">Demos</a></li>
         </ul>
       </div>
       <!-- /.navbar-collapse -->

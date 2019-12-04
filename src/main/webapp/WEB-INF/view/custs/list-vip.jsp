@@ -116,7 +116,7 @@
 			//第一个实例
 			table.render({
 				elem : '#custListTb',
-				height : 312,
+				height : 500,
 				url : '${PATH}/cust/getVIPCustList',
 				text : {
 					none : '未找到顾客'

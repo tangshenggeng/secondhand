@@ -79,19 +79,31 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#integral"><i class="glyphicon glyphicon-usd"></i> 积分管理<i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#integral"><i class="glyphicon glyphicon-usd"></i> 积分订单管理<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="integral" class="collapse">
                             <li>
-                                <a href="${PATH}/rechargeCust/toWaitRechargePage">客户积分</a>
+                                <a href="${PATH}/rechargeCust/toWaitRechargePage">客户积分订单</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/rechargeCust/toExceptionRechargePage">客户异常积分订单</a>
                             </li>
                         </ul>
                     </li>
-                    <!-- <li>
-                        <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-                    </li> -->
-                    <!-- <li>
-                        <a href="index-rtl.html"><i class="fa fa-fw fa-dashboard"></i> RTL Dashboard</a>
-                    </li> -->
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#brandAndSort"><i class="glyphicon glyphicon-th-list"></i> 品牌和分类管理<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="brandAndSort" class="collapse">
+                            <li>
+                                <a href="${PATH}/brand/toAddBrandPage">添加品牌</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/brand/toBrandListPage">品牌列表</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/sort/toSortListPage">分类管理</a>
+                            </li>
+                        </ul>
+                    </li>
+                    
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

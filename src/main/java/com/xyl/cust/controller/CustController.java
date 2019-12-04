@@ -351,7 +351,7 @@ public class CustController {
 	 * */
 	@RequestMapping(value="/upgradeVIP/{id}",method=RequestMethod.GET)
 	@ResponseBody
-	public Msg upgradeVIP(@PathVariable("id")Integer custId) {
+	public Msg upgradeVIP(@PathVariable("id")Integer custId,HttpServletRequest req) {
 		Cust cust = custSer.selectById(custId);
 		Float old = cust.getCustIntegral();
 		if(old<100f) {
@@ -377,10 +377,10 @@ public class CustController {
 		boolean b = custSer.updateById(cust);
 		EmailUntils utils = new EmailUntils();
 		utils.addOrder(cust.getCustEmail(), "充值会员", 100f, old-100);
-		
 		if(!b) {
 			return Msg.fail().add("msg","升级失败！");
 		}
+		req.getSession().setAttribute("state", "会员");
 		return Msg.success().add("msg", "升级成功！");
 	}
 	/**
@@ -464,7 +464,7 @@ public class CustController {
 			return "forward:/pages/cust/cust-info.jsp";
 		}
 		model.addAttribute("cust", cust);
-		if(!cust.getCustState().equals("会员")) {
+		if(cust.getCustState().equals("会员")) {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String end = sdf.format(cust.getVipEnd());
 			model.addAttribute("end", end);
@@ -530,7 +530,7 @@ public class CustController {
 		req.getSession().setAttribute("id", one.getCustId());
 		req.getSession().setAttribute("header", one.getCustHeader());
 		req.getSession().setAttribute("name", one.getCustName());
-		model.addAttribute("state", one.getCustState());
+		req.getSession().setAttribute("state", one.getCustState());
 		req.getSession().setAttribute("flag", 1);
 		return "redirect:/pages/index.jsp";
 	}

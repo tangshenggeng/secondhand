@@ -57,48 +57,54 @@ input[type="number"] {
             <div class="container-fluid"  style="margin-top: 60px">
 				<ol class="breadcrumb" >
                     <li>主页</li>
-                    <li class="active">添加客户</li>
+                    <li class="active">添加品牌</li>
                 </ol>
                 <!-- Page Heading -->
                 <div class="row">
 					<div class="col-lg-6 col-md-offset-3">
-						<form class="layui-form" style="margin: 100px 0 200px 0">
+						<div class="layui-form-item"  style="margin-top: 50px">
+						    <label class="layui-form-label">图片</label>
+						    <div class="layui-input-block">
+						       <div class="layui-upload">
+								  <button type="button" class="layui-btn" id="uploadFoodImg">选择图片</button>
+								  <div class="layui-upload-list">
+								    <img class="layui-upload-img" style="width: 100px;height: 100px;" id="previewImg">
+								    <p id="demoText"></p>
+								  </div>
+								</div>
+						    </div>
+						  </div>
+						<form class="layui-form" style="margin-bottom: 100px">
+							<input type="hidden" name="brandLogo" id="brand_img">
 							<div class="layui-form-item">
-								<label class="layui-form-label">用户名</label>
+								<label class="layui-form-label">品牌名</label>
 								<div class="layui-input-block">
-									<input type="text" name="custName" required
-										lay-verify="required" placeholder="请输入用户名"
+									<input type="text" name="brandName" required
+										lay-verify="required" placeholder="请输入品牌名"
 										autocomplete="off" class="layui-input">
 								</div>
 							</div>
 							<div class="layui-form-item">
-								<label class="layui-form-label">邮箱</label>
+								<label class="layui-form-label">权重</label>
 								<div class="layui-input-block">
-									<input type="email" name="custEmail" required
-										lay-verify="required" placeholder="请输入邮箱"
-										id="regiterEmailInput" autocomplete="off"
-										class="layui-input">
-								</div>
-							</div>
-							<div class="layui-form-item">
-							    <label class="layui-form-label">分类</label>
-							    <div class="layui-input-block">
-							      <select name="sort" lay-verify="required">
-							        <option value="0">---请选择---</option>
-							        <option value="普通">普通</option>
-							        <option value="会员">会员</option>
-							      </select>
-							    </div>
-							  </div>
-							  <div class="layui-form-item">
-								<label class="layui-form-label">积分</label>
-								<div class="layui-input-block">
-									<input type="number" name="integral" required
+									<input type="number" name="brandWeight" required
 										lay-verify="required" placeholder="请输入"
 										id="regiterEmailInput" autocomplete="off"
 										class="layui-input">
 								</div>
 							  </div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">介绍</label>
+								<div class="layui-input-block">
+									<textarea name="brandIntroduce" required lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">状态</label>
+								<div class="layui-input-block">
+									<input type="checkbox" name="isShow" lay-skin="switch" value="展示" lay-text="展示|隐藏" checked>
+								</div>
+							</div>
 							<div class="layui-form-item">
 								<div class="layui-input-block">
 									<button class="layui-btn" lay-submit lay-filter="*">添加</button>
@@ -132,9 +138,14 @@ input[type="number"] {
 	layui.use(['layer', 'form'], function(){
 		  var layer = layui.layer
 		  ,form = layui.form;
+		  var brand_img = $("#brand_img").val()
 		  form.on('submit(*)', function(data){
+			  if(brand_img==""){
+				  layer.msg("请选择品牌LOGO",{icon:5})
+				  return false;
+			  }
 			  $.ajax({
-				  url:"${PATH}/cust/addCust",
+				  url:"${PATH}/brand/addBrand",
 				  method:"POST",
 				  contentType: "application/json",//必须指定，否则会报415错误
 			      dataType : 'json',
@@ -159,6 +170,47 @@ input[type="number"] {
 			  return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
 			});
 		});
+	layui.use(['upload','layer','form'], function(){
+		 var $ = layui.jquery
+		 ,upload = layui.upload
+		 ,layer = layui.layer
+		 ,form = layui.form;
+		 var uploadInst = upload.render({
+		    elem: '#uploadFoodImg'
+		    ,url: '${PATH}/brand/uploadBrandImg'
+		    ,accept:"images"	//指定允许上传时校验的文件类型
+		    ,exts:'jpg|png|gif|bmp|jpeg'
+		    ,acceptMime:'image/*' //规定打开文件选择框时，筛选出的文件类型
+		    ,size:1024	//设置文件最大可允许上传的大小，单位 KB。
+		    ,field:"file"
+		    ,before: function(obj){
+		      //预读本地文件示例，不支持ie8
+		      obj.preview(function(index, file, result){
+		        $('#previewImg').attr('src', result); //图片链接（base64）
+		      });
+		    }
+		    ,done: function(res){
+		      //如果上传失败
+		      if(res.code > 0){
+		        return layer.msg(res.msg,{icon:6});
+		      }
+		      //上传成功
+		      $("#brand_img").val(res.data);
+		      return layer.msg(res.msg,{icon:6});
+		      
+		    }
+		    ,error: function(){
+		      //演示失败状态，并实现重传
+		      var demoText = $('#demoText');
+		      demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+		      demoText.find('.demo-reload').on('click', function(){
+		        uploadInst.upload();
+		      });
+		    }
+		  });
+	})
+	
+	
 	</script>
 
 </html>

@@ -33,8 +33,15 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 <link href="${PATH}/static/layui/css/layui.css" rel="stylesheet">
-<script src="${PATH}/static/vue/vue.min.js"></script>
-<script src="${PATH}/static/vue/vue-resource.min.js"></script>
+<style type="text/css">
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}
+
+input[type="number"] {
+	-moz-appearance: textfield;
+}
+</style>
 </head>
 
 <body>
@@ -49,20 +56,21 @@
             <div class="container-fluid"  style="margin-top: 60px">
 				<ol class="breadcrumb" >
                     <li>主页</li>
-                    <li class="active">普通客户</li>
+                    <li class="active">分类管理</li>
                 </ol>
                 <!-- Page Heading -->
                 <div class="row">
 					<div class="col-lg-12">
 						<form class="layui-form" id="kwCustForm">
-							<div class="layui-inline layui-show-xs-block">
-                                <input class="layui-input" autocomplete="off" id="start_date" placeholder="注册时间开始日" name="start_date" id="start" lay-key="1">
+                            <div class="layui-inline layui-show-xs-block">
+                                <input type="text" name="kwWords" placeholder="关键字" autocomplete="off" class="layui-input">
                             </div>
                             <div class="layui-inline layui-show-xs-block">
-                                <input class="layui-input" autocomplete="off" id="end_date" placeholder="注册时间截止日" name="end_date" id="end" lay-key="2">
-                            </div>
-                            <div class="layui-inline layui-show-xs-block">
-                                <input type="text" name="formCode" placeholder="关键字" autocomplete="off" class="layui-input">
+                            	<select name="isShow">
+							        <option value="0">---请选择---</option>
+							        <option value="展示">展示</option>
+							        <option value="隐藏">隐藏</option>
+							      </select>
                             </div>
                             <div class="layui-inline layui-show-xs-block">
                                 <button class="layui-btn" type="button" id="kwFormBtn"><i class="layui-icon layui-icon-search"></i></button>
@@ -75,11 +83,12 @@
 					<div class="col-lg-12">
 					<br>
 						<button class="layui-btn layui-btn-danger" type="button" id="delByIds"><i class="layui-icon layui-icon-delete"> 删除</i></button>
-						<button class="layui-btn layui-btn-normal" type="button" id="exceptionCustBtn"><i class="layui-icon layui-icon-tips"> 异常</i></button>
-						<button class="layui-btn layui-btn-normal" type="button" id="upgradeCustBtn"><i class="layui-icon layui-icon-rate"> 升级会员</i></button>
+						<button class="layui-btn layui-btn-normal" type="button" id="showSortsBtn"><i class="glyphicon glyphicon-eye-open"> 展示</i></button>
+						<button class="layui-btn layui-btn-normal" type="button" id="hideSortsBtn"><i class="glyphicon glyphicon-eye-close"> 隐藏</i></button>
+						<button class="layui-btn" type="button" id="addSortBtn"><i class="glyphicon glyphicon-plus"> 隐藏</i></button>
 						<table id="custListTb"
 							class="table table-responsive table-hover"
-							lay-filter="custListTbFilter">
+							lay-filter="brandListTbFilter">
 		
 						</table>
 					</div>
@@ -93,7 +102,40 @@
 
     </div>
     <!-- /#wrapper -->
-
+<!-- 模态框 -->
+<div style="display: none;" id="addSortModal">
+		<form class="layui-form" style="margin: 20px 50px">
+			<div class="layui-form-item">
+				<label class="layui-form-label">分类名</label>
+				<div class="layui-input-block">
+					<input type="text"name="sortName" required
+						lay-verify="required" placeholder="请输入"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">权重</label>
+				<div class="layui-input-block">
+					<input type="number" name="sortWeight" required
+						lay-verify="required" placeholder="请输入" id="regiterEmailInput"
+						autocomplete="off" class="layui-input">
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">状态</label>
+				<div class="layui-input-block">
+					<input type="checkbox" name="isShow" lay-skin="switch" value="展示"
+						lay-text="展示|隐藏" checked>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<div class="layui-input-block">
+					<button class="layui-btn" lay-submit lay-filter="*">添加</button>
+					<button class="layui-btn layui-btn-primary" type="reset" id="resetModal">重置</button>
+			</div>
+			</div>
+		</form>
+	</div>
     <!-- jQuery -->
     <script src="${PATH}/static/js/jquery2.0-min.js"></script>
 
@@ -117,11 +159,11 @@
 			table.render({
 				elem : '#custListTb',
 				height : 500,
-				url : '${PATH}/cust/getMemberCustList',
+				url : '${PATH}/sort/getSortsList',
 				text : {
-					none : '未找到顾客'
+					none : '未找到分类'
 				},
-				id:"custListTbId",
+				id:"listTbId",
 				skin : 'line' ,
 				contentType: "application/json",//必须指定，否则会报415错误
 			    dataType : 'json',
@@ -133,48 +175,26 @@
 				},
 				cols : [ [ //表头
 				{
-					field : 'custId',
+					field : 'sortId',
 					title : '#',
 					type:"checkbox",
 					align : "center"
-				}, {
-					field : 'custName',
-					title : '用户名',
+				},{
+					field : 'sortName',
+					title : '分类名',
 					align : "center"
 				},{
-					field : 'custNick',
-					title : '昵称',
-					align : "center"
-				},{
-					field : 'custNick',
-					title : '头像',
-					align : "center",
-					templet: function(d){
-				        return '<img alt="头像" style="width: 30px;height: 30px"  src="'+d.custHeader+'">'
-				    }
-				}, {
-					field : 'custEmail',
-					title : '邮箱',
-					align : "center"
-				},{
-					field : 'custIntegral',
-					title : '积分',
+					field : 'sortWeight',
+					title : '权重',
 					align : "center",
 					sort:true
 				},{
-					field : 'createTime',
-					title : '创建时间',
+					field : 'isShow',
+					title : '状态',
+					style:"color: orange;",
 					align : "center",
-					sort:true
-					,templet:"<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd')}}</div>"
-				}/* ,{
-					fixed : 'right',
-					title : '操作',
-					toolbar : '#barDemo',
-					align : "center"
-				} */]],
+				}]],
 				parseData : function(res) { //res 即为原始返回的数据
-					console.log(res)
 					return {
 						"code" : res.status, //解析接口状态
 						"msg" : res.message, //解析提示文本
@@ -184,98 +204,8 @@
 					};
 				}
 			});
-			table.on('tool(feedBackTBFilter)', function(obj) { //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
-				var data = obj.data; //获得当前行数据
-				var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
-				var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
-
-				if (layEvent === 'detail') { //查看
-					$("#feedText").html(data.feedbackText);
-					var index = layer.open({
-						title : '反馈内容',
-						fix : true,
-						resize : false,
-						move : false,
-						zIndex : 500,
-						shadeClose : true,
-						shade : 0.4,
-						type : 1,
-						content : $('#detailFeedBlackModal')
-					});
-				} else if (layEvent === 'solveFeedBack') { //解决
-					console.log(data.feedbackSortId)
-					if (data.feedbackSortId == 0) {
-						layer.msg("请先在“修改”里面选择反馈分类！", {
-							icon : 2
-						});
-						return;
-					}
-					var id = data.feedbackId;
-					layer.confirm('确认已经解决了吗？', function(index) {
-						$.ajax({
-							url : "${APP_PATH}/feedBack/solveFeedBack?id="
-									+ id,
-							method : "GET",
-							success : function(res) {
-								if (res.code == 100) {
-									layer.msg(res.extend.msg, {
-										icon : 1
-									}, function() {
-										renderTb();
-									});
-								}
-							},
-							error : function() {
-								layer.msg("确认解决失败！系统出错！", {
-									icon : 2
-								});
-							}
-						});
-						layer.close(index);
-					});
-				} else if (layEvent === 'edit') { //编辑
-					$("#feedBackIdModal").val(data.feedbackId);
-					var sortId = data.feedbackSortId
-					$("#sortModalSel > option").each(function() {
-						var va = $(this).val()
-						if (va == sortId) {
-							$(this).attr("selected", "selected")
-						}
-					});
-					var index = layer.open({
-						title : '反馈内容',
-						fix : true,
-						resize : false,
-						move : false,
-						area : [ "600px", "300px" ],
-						zIndex : 500,
-						shadeClose : true,
-						shade : 0.4,
-						type : 1,
-						content : $('#editFeedBlackModal')
-					});
-
-				} else if (layEvent === 'LAYTABLE_TIPS') {
-					layer.alert('Hi，头部工具栏扩展的右侧图标。');
-				}
-			});
 		});
 	}
-	
-	layui.use('laydate', function(){
-		  var laydate = layui.laydate;
-		  //执行一个laydate实例
-		  laydate.render({
-		    elem: '#start_date' //指定元素,
-		    ,eventElem: '#start_date'
-		    ,trigger: 'click'
-		  });
-		  laydate.render({
-		    elem: '#end_date' //指定元素,
-		    ,eventElem: '#end_date'
-		    ,trigger: 'click'
-		  });
-		});
 	//筛选
 	$("#kwFormBtn").click(function(){
 		renderTb();
@@ -285,25 +215,24 @@
 		layui.use(['table','layer'], function() {
 			var table = layui.table
 			,layer = layui.layer;
-			layer.confirm('真的删除行么', function(index){
-				var checkStatus = table.checkStatus('custListTbId');
+			layer.confirm('真的删除行吗？无法恢复的！', function(index){
+				var checkStatus = table.checkStatus('listTbId');
 				var datas = checkStatus.data
 				var ids = new Array();
 				$(datas).each(function(){
-					ids.push($(this)[0].custId);
+					ids.push($(this)[0].sortId);
 				})
 				if(ids.length==0){
 					layer.msg("请选择数据！");
 					return null;
 				}
 				$.ajax({
-					url:"${PATH}/cust/delCustByIds",
+					url:"${PATH}/sort/delSortsByIds",
 					method:"POST",
 					contentType: "application/json",//必须指定，否则会报415错误
 				    dataType : 'json',
 					data:JSON.stringify(ids),
 					success:function(res){
-						console.log(res)
 						if(res.code == 100){
 							layer.msg(res.extend.msg,{icon:6},function(){
 								renderTb();
@@ -323,30 +252,29 @@
 			});
 		});
 	})
-	//批量异常
-	$("#exceptionCustBtn").click(function(){
+	//批量展示
+	$("#showSortsBtn").click(function(){
 		layui.use(['table','layer'], function() {
 			var table = layui.table
 			,layer = layui.layer;
-			layer.confirm('确认拉黑用户吗？', function(index){
-				var checkStatus = table.checkStatus('custListTbId');
+			layer.confirm('确认展示选中的分类吗？', function(index){
+				var checkStatus = table.checkStatus('listTbId');
 				var datas = checkStatus.data
 				var ids = new Array();
 				$(datas).each(function(){
-					ids.push($(this)[0].custId);
+					ids.push($(this)[0].sortId);
 				})
 				if(ids.length==0){
 					layer.msg("请选择数据！");
 					return null;
 				}
 				$.ajax({
-					url:"${PATH}/cust/exceptionCustByIds",
+					url:"${PATH}/sort/showSortsByIds",
 					method:"POST",
 					contentType: "application/json",//必须指定，否则会报415错误
 				    dataType : 'json',
 					data:JSON.stringify(ids),
 					success:function(res){
-						console.log(res)
 						if(res.code == 100){
 							layer.msg(res.extend.msg,{icon:6},function(){
 								renderTb();
@@ -366,30 +294,29 @@
 			});
 		});
 	})
-	//批量升级
-	$("#upgradeCustBtn").click(function(){
+	//批量隐藏
+	$("#hideSortsBtn").click(function(){
 		layui.use(['table','layer'], function() {
 			var table = layui.table
 			,layer = layui.layer;
-			layer.confirm('确认升级用户吗？', function(index){
-				var checkStatus = table.checkStatus('custListTbId');
+			layer.confirm('确认隐藏选中的分类吗？', function(index){
+				var checkStatus = table.checkStatus('listTbId');
 				var datas = checkStatus.data
 				var ids = new Array();
 				$(datas).each(function(){
-					ids.push($(this)[0].custId);
+					ids.push($(this)[0].sortId);
 				})
 				if(ids.length==0){
 					layer.msg("请选择数据！");
 					return null;
 				}
 				$.ajax({
-					url:"${PATH}/cust/upgradeCustByIds",
+					url:"${PATH}/sort/hideSortsByIds",
 					method:"POST",
 					contentType: "application/json",//必须指定，否则会报415错误
 				    dataType : 'json',
 					data:JSON.stringify(ids),
 					success:function(res){
-						console.log(res)
 						if(res.code == 100){
 							layer.msg(res.extend.msg,{icon:6},function(){
 								renderTb();
@@ -409,6 +336,86 @@
 			});
 		});
 	})
+	layui.use(['layer', 'form'], function(){
+		  var layer = layui.layer
+		  ,form = layui.form;
+		  form.on('submit(*)', function(data){
+			  if(data.field.brandLogo==""){
+				  layer.msg("请选择品牌LOGO",{icon:5})
+				  return false;
+			  }
+			  $.ajax({
+				  url:"${PATH}/brand/editBrand",
+				  method:"POST",
+				  contentType: "application/json",//必须指定，否则会报415错误
+			      dataType : 'json',
+			      data : JSON.stringify(data.field),//序列化复杂对象
+				  success:function(res){
+					  if(res.code == 100 ){
+						  layer.msg(res.extend.msg,{icon:6},function(){
+							  renderTb();
+							 layer.closeAll()
+						  })
+					  }else{
+						  layer.msg(res.extend.msg,{icon:5})
+					  }
+				  },error:function(){
+					  layer.msg("系统错误！",{icon:5},function(){
+						  renderTb();
+						  layer.closeAll()
+					  })
+				  }
+			  });
+			  return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+			});
+		});
+	$("#addSortBtn").click(function(){
+		$("#resetModal").click()
+		layui.use('layer', function() {
+			var layer = layui.layer;
+			var index = layer.open({
+				title : '添加分类',
+				fix : true,
+				resize : false,
+				move : false,
+				area: ['800px','300px'],
+				zIndex : 500,
+				shadeClose : true,
+				shade : 0.4,
+				type : 1,
+				anim: 2,
+				content : $('#addSortModal')
+			});
+		})
+	})
+	layui.use(['layer', 'form'], function(){
+		  var layer = layui.layer
+		  ,form = layui.form;
+		  form.on('submit(*)', function(data){
+			  $.ajax({
+				  url:"${PATH}/sort/addSort",
+				  method:"POST",
+				  contentType: "application/json",//必须指定，否则会报415错误
+			      dataType : 'json',
+			      data : JSON.stringify(data.field),//序列化复杂对象
+				  success:function(res){
+					  if(res.code == 100 ){
+						  layer.msg(res.extend.msg,{icon:6},function(){
+							  renderTb();
+							 layer.closeAll()
+						  })
+					  }else{
+						  layer.msg(res.extend.msg,{icon:5})
+					  }
+				  },error:function(){
+					  layer.msg("系统错误！",{icon:5},function(){
+						  renderTb();
+						  layer.closeAll()
+					  })
+				  }
+			  });
+			  return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+			});
+		});
 	</script>
-
 </html>

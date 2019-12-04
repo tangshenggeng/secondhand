@@ -88,6 +88,7 @@ input[type="number"] {
 						</form>
 					</div>
 					<div class="col-lg-12">
+					<br><button class="layui-btn layui-btn-danger" type="button" id="delByIds"><i class="layui-icon layui-icon-delete"> 删除</i></button>
 						<table id="rechargeListTb"
 							class="table table-responsive table-hover"
 							lay-filter="rechargeListTbFilter">
@@ -259,12 +260,8 @@ input[type="number"] {
 				}else if(layEvent === 'reject'){
 					var data = data
 					var flag = data.rechargeState
-					if(flag=="200"){
-						layer.msg("当前客户已经驳回",{icon:5})
-						return;
-					}
 					$.ajax({
-						url:"${PATH}/rechargeCust/rejectRecharge",
+						url:"${PATH}/rechargeCust/exceptionRecharge",
 						method:"post",
 						contentType: "application/json",//必须指定，否则会报415错误
 				        dataType : 'json',
@@ -341,7 +338,7 @@ input[type="number"] {
 	<script type="text/html" id="barDemo">
 <div align="center">
 <button type="button" class="btn btn-info btn-xs btn-outline" lay-event="detail">查看</button>
-<button type="button" class="btn btn-warning btn-xs btn-outline" lay-event="reject">驳回</button>
+<button type="button" class="btn btn-warning btn-xs btn-outline" lay-event="reject">异常</button>
 </div>
 </script>
 </html>

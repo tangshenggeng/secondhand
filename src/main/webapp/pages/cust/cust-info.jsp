@@ -419,8 +419,6 @@ layui.use('layer', function() {
 					} else {
 						layer.msg(res.extend.msg, {
 							icon : 5
-						}, function() {
-							location.reload();
 						})
 					}
 				},
