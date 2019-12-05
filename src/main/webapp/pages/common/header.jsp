@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <header class="default">
+<script type="text/javascript" src="${PATH}/static/vue/vue.min.js"></script>
+<script type="text/javascript" src="${PATH}/static/vue/vue-resource.min.js"></script>
   <nav class="navbar navbar-default navbar-sticky bootsnav">
     <div class="container-fluid">
-    
       <div class="side_item">
 		<c:choose>
 			<c:when test="${sessionScope.nick == null}">
@@ -66,36 +67,11 @@
 				      </ul>
 					</c:when>
 					<c:when test="${sessionScope.flag == 2}">
-						<li class="layui-nav-item" lay-unselect=""><a
-							href="javascript:;"><img src="${sessionScope.photo}"
-								class="layui-nav-img"> ${sessionScope.nick} </a>
-							<dl class="layui-nav-child">
-								<dd>
-									<a class="dropdown-item"
-										href="${PATH}/technician/getTechnInfo/${sessionScope.id}/${sessionScope.phone}">个人中心</a>
-								</dd>
-								<dd>
-									<a class="dropdown-item"
-										href="${PATH}/orders/getTechnOrders/${sessionScope.id}/${sessionScope.phone}">我的订单</a>
-								</dd>
-								<dd>
-									<a class="dropdown-item"
-										href="${PATH}/blogs/writeBlog/${sessionScope.id}/${sessionScope.phone}">编写博客</a>
-								</dd>
-								<dd>
-									<a class="dropdown-item"
-										href="${PATH}/blogs/getBlogsByTechn/${sessionScope.id}/${sessionScope.phone}">我的博客</a>
-								</dd>
-								<dd>
-									<a class="dropdown-item" href="${PATH}/cust/loginOut">退出登录</a>
-								</dd>
-							</dl></li>
+						
 					</c:when>
 				</c:choose>
 			</c:otherwise>
 		</c:choose>
-
-				
       </div>
       
       
@@ -113,54 +89,18 @@
       <div class="collapse navbar-collapse" id="navbar-menu">
         <ul class="nav navbar-nav navbar-left" data-in="fadeIn" data-out="fadeOut">
         	<li><a href="${PATH}/pages/index.jsp">首页</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">商品分类</a>
-            <ul class="dropdown-menu">
-              <li><a href="index.html">衣服</a></li>
-              <li><a href="index2.html">Home Shop 2</a></li>
-              <li><a href="index3.html">Home V3 — Collection: Men</a></li>
-              <li><a href="index4.html">Home V4 — Collection: Women</a></li>
-              <li><a href="index5.html">Home V5 — Collections / Parallax</a></li>
-              <li><a href="index6.html">Home V6 — Simple eCommerce</a></li>
-              <li><a href="shop4.html">Home V7 — Portfolio</a></li>
-              <li><a href="#">Home V8 — Startup Site</a></li>
-            </ul>
-          </li>
-          <li class="dropdown megamenu-fw">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">品牌分类</a>
-            <ul class="dropdown-menu half-content" role="menu">
-              <li>
-                <div class="row">
-                  <div class="col-menu col-md-5">
-                    <h6 class="title">Layouts</h6>
-                    <div class="content">
-                      <ul class="menu-col">
-                        <li><a href="shop1.html">Home Shop 1</a></li>
-                        <li><a href="shop2.html">Home Shop 2</a></li>
-                        <li><a href="shop3.html">Home Shop 3</a></li>
-                        <li><a href="shop4.html">Home Shop 4</a></li>
-                        <li><a href="shop5.html">Home Shop 5</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <!-- end col-6 -->
-                  <div class="col-menu col-md-7">
-                    <h6 class="title">Layouts</h6>
-                    <div class="content">
-                      <ul class="menu-col">
-                        <li><a href="shop-detail2.html">Shop — Catalog</a></li>
-                        <li><a href="shop4.html">Shop — Categories Grid</a></li>
-                        <li><a href="shop-detail3.html">Shop — Product Category</a></li>
-                        <li><a href="shop3.html">Shop — with Sidebar</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                  <!-- end col-6 -->
-                </div>
-                <!-- end row -->
-              </li>
-            </ul>
-          </li>
+	         <li class="dropdown">
+	           <a href="#" class="dropdown-toggle" data-toggle="dropdown">商品分类</a>
+	           <ul class="dropdown-menu" id="showSorts">
+	             <li v-for="item in sorts"><a :href="item.sortId" v-text = 'item.sortName'></a></li>
+	           </ul>
+	         </li>
+	         <li class="dropdown">
+	           <a href="#" class="dropdown-toggle" data-toggle="dropdown">品牌分类</a>
+	           <ul class="dropdown-menu" id="showBrands">
+	             <li v-for="item in brands"><a :href="item.brandId" v-text = 'item.brandName'></a></li>
+	           </ul>
+	         </li>
           <li class="dropdown megamenu-fw">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">鉴定师分类</a>
             <ul class="dropdown-menu megamenu-content" role="menu">
@@ -195,11 +135,12 @@
                   </div>
                   <!-- end col-3 -->
                   <div class="col-menu col-md-3">
-                    <h6 class="title">Shop Pages</h6>
+                    <h6 class="title">鉴定师</h6>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="shop-detail1.html">Shop — Categories Grid</a></li>
-                        <li><a href="shop5.html">Shop — Product Category</a></li>
+                        <li><a href="${PATH}/pages/appraisal/regiter.jsp">申请加入</a></li>
+                        <li><a href="${PATH}/pages/appraisal/login.jsp">登录入口</a></li>
+                        <li><a href="shop5.html">鉴定师说明</a></li>
                         <li><a href="shop3.html">Shop — with Sidebar</a></li>
                         <li><a href="wishlist.html">Shopping Cart</a></li>
                         <li><a href="shop-cart.html">Order Tracking</a></li>
@@ -211,8 +152,8 @@
                       <div class="image">
                         <img src="${PATH}/pages/static/images/menu.jpg" alt="menu">
                         <div class="centered text-center">
-                          <h4 class="text-uppercase">Deal of the week</h4>
-                          <a href="#." class="btn_shop text-uppercase">Shop now</a>
+                          <h4 class="text-uppercase">鉴定师</h4>
+                          <!-- <a href="#." class="btn_shop text-uppercase">Shop now</a> -->
                         </div>
                       </div>
                     </div>
@@ -224,16 +165,16 @@
             </ul>
           </li>
           <!-- <li><a href="blog.html">Blog</a></li> -->
-          <li class="dropdown megamenu-fw">
+          <!-- <li class="dropdown megamenu-fw">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">加入鉴定师</a>
             <ul class="dropdown-menu megamenu-content" role="menu">
               <li>
                 <div class="row">
                   <div class="col-menu col-md-3">
-                    <h6 class="title">Categories</h6>
+                    <h6 class="title">申请鉴定师</h6>
                     <div class="content">
                       <ul class="menu-col">
-                        <li><a href="shop-recent1.html">Shop — Catalog</a></li>
+                        <li><a href="shop-recent1.html">申请鉴定师</a></li>
                         <li><a href="shop-recent2.html">Shop — Categories Grid</a></li>
                         <li><a href="shop5.html">Shop — Product Category</a></li>
                         <li><a href="shop-recent3.html">Shop — with Sidebar</a></li>
@@ -242,7 +183,7 @@
                       </ul>
                     </div>
                   </div>
-                  <!-- end col-3 -->
+                  end col-3
                   <div class="col-menu col-md-3">
                     <h6 class="title">Products demos</h6>
                     <div class="content">
@@ -256,7 +197,7 @@
                       </ul>
                     </div>
                   </div>
-                  <!-- end col-3 -->
+                  end col-3
                   <div class="col-menu col-md-3">
                     <h6 class="title">Other Pages</h6>
                     <div class="content">
@@ -281,15 +222,49 @@
                       </ul>
                     </div>
                   </div>
-                  <!-- end col-3 -->
+                  end col-3
                 </div>
-                <!-- end row -->
+                end row
               </li>
             </ul>
-          </li>
+          </li> -->
         </ul>
       </div>
       <!-- /.navbar-collapse -->
     </div>
   </nav>
+  <script type="text/javascript">
+  var showDiv = new Vue({
+		el:"#showSorts",
+		data:{
+			sorts:[]
+		},created: function () {
+			//展示分类
+			this.$http.get("${PATH}/sort/getSortssByShow").then(function(response){
+				//成功
+				this.sorts=response.body;
+			},function(response) {
+				//错误
+				console.log("系统错误！")
+			});
+		}
+	});
+  var showDiv = new Vue({
+		el:"#showBrands",
+		data:{
+			brands:[],
+		},created: function () {
+			//展示品牌
+			this.$http.get("${PATH}/brand/getBrandsByShow").then(function(response){
+				//成功
+				this.brands=response.body;
+			},function(response) {
+				//错误
+				console.log("系统错误！")
+			});
+		}
+	});
+
+  
+  </script>
 </header>

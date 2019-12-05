@@ -42,6 +42,16 @@ public class BrandController {
 	private BrandService brandSer;
 	
 	/**
+	 *得到所有的展示品牌（前台展示）
+	 * @return 
+	 * */
+	@RequestMapping(value="/getBrandsByShow",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Brand> getBrandsByShow() {
+		return brandSer.selectList(new EntityWrapper<Brand>().eq("is_show", "展示").orderBy("brand_weight", false));
+	}
+	
+	/**
 	 * 批量展示
 	 * */
 	@RequestMapping(value="/showBrandsByIds",method=RequestMethod.POST)
@@ -77,6 +87,7 @@ public class BrandController {
 	@RequestMapping(value="/delBrandsByIds",method=RequestMethod.POST)
 	@ResponseBody
 	public Msg delBrandsByIds(@RequestBody ArrayList<Integer> list) {
+		
 		boolean b = brandSer.deleteBatchIds(list);
 		if(!b) {
 			return Msg.fail().add("msg","删除失败！");

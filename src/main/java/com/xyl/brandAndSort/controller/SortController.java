@@ -38,7 +38,15 @@ public class SortController {
 	@Autowired
 	private SortService sortSer;
 	
-	
+	/**
+	 *得到所有的展示分类（前台展示）
+	 * @return 
+	 * */
+	@RequestMapping(value="/getSortssByShow",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Sort> getSortssByShow() {
+		return sortSer.selectList(new EntityWrapper<Sort>().eq("is_show", "展示").orderBy("sort_weight", false));
+	}
 	
 	/**
 	 * 添加品牌

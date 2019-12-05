@@ -430,12 +430,7 @@ layui.use('layer', function() {
 		  });
 		  layer.close(index);
 		});
-		
-		
 	});
-
-	
-	
 })
 
 </script>

@@ -10,11 +10,11 @@ import org.apache.commons.mail.HtmlEmail;
 public class EmailUntils {
 
 	private static final String hostName = "smtp.qq.com";
-    private static final String userInfo = "etczkinuphjnbijf"; //服务器验证码 -- 非发件人邮箱密码
+    private static final String userInfo = "vxqwhzhxraowfjed"; //服务器验证码 -- 非发件人邮箱密码
     
     private static final String chartset = "UTF-8";
     //发件人
-    private static final String senderEmail = "wuyetianyi@qq.com";
+    private static final String senderEmail = "1528474876@qq.com";
     //发件人昵称
     private static final String senderNick = "遇您识货";
     //主题

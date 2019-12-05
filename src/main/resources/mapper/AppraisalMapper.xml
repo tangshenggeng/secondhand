@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyl.appraisal.mapper.AppraisalMapper">
+
+    <!-- 开启二级缓存 -->
+    <!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/> -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xyl.appraisal.beans.Appraisal">
+        <id column="apprer_id" property="apprerId" />
+        <result column="appr_ident" property="apprIdent" />
+        <result column="appr_nick" property="apprNick" />
+        <result column="appr_name" property="apprName" />
+        <result column="appr_email" property="apprEmail" />
+        <result column="appr_pwd" property="apprPwd" />
+        <result column="appr_state" property="apprState" />
+        <result column="appr_vip" property="apprVip" />
+        <result column="appr_integral" property="apprIntegral" />
+        <result column="appr_num" property="apprNum" />
+        <result column="appr_price" property="apprPrice" />
+        <result column="appr_header" property="apprHeader" />
+        <result column="appr_photo" property="apprPhoto" />
+        <result column="create_time" property="createTime" />
+        <result column="is_del" property="isDel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        apprer_id, appr_ident, appr_nick, appr_name, appr_email, appr_pwd, appr_state, appr_vip, appr_integral, appr_num, appr_price, appr_header, appr_photo, create_time, is_del
+    </sql>
+
+</mapper>

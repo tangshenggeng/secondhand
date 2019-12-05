@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyl.integral.mapper.FlowApprMapper">
+
+    <!-- 开启二级缓存 -->
+    <!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/> -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xyl.integral.beans.FlowAppr">
+        <id column="flow_id" property="flowId" />
+        <result column="appr_id" property="apprId" />
+        <result column="flow_money" property="flowMoney" />
+        <result column="old_integral" property="oldIntegral" />
+        <result column="flow_integral" property="flowIntegral" />
+        <result column="new_integral" property="newIntegral" />
+        <result column="flow_sort" property="flowSort" />
+        <result column="create_time" property="createTime" />
+        <result column="flow_state" property="flowState" />
+        <result column="is_del" property="isDel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        flow_id, appr_id, flow_money, old_integral, flow_integral, new_integral, flow_sort, create_time, flow_state, is_del
+    </sql>
+
+</mapper>
