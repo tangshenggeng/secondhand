@@ -113,8 +113,8 @@
               <input type="text" name="apprNick" class="form-control" placeholder="请输入昵称">
             </div>
             <div class="form-group">
-              <label>登录名</label>
-              <input type="text" name="apprName" class="form-control" placeholder="请输入登录名(请勿包含中文)">
+              <label>真实姓名</label>
+              <input type="text" name="apprName" class="form-control" placeholder="请输入登录名">
             </div>
             <div class="form-group">
               <label>邮箱</label>

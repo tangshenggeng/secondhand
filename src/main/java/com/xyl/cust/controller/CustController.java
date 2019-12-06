@@ -157,7 +157,7 @@ public class CustController {
 		return Msg.success().add("msg", "成功");
 	}
 	/**
-	 * 批量拉黑
+	 * 批量恢复
 	 * */
 	@RequestMapping(value="/recoveryCustByIds",method=RequestMethod.POST)
 	@ResponseBody

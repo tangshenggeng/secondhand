@@ -75,9 +75,7 @@
 					<div class="col-lg-12">
 					<br>
 						<button class="layui-btn layui-btn-danger" type="button" id="delByIds"><i class="layui-icon layui-icon-delete"> 删除</i></button>
-						<button class="layui-btn layui-btn-normal" type="button" id="agreeApprBtn"><i class="layui-icon layui-icon-face-smile"> 通过</i></button>
-						<button class="layui-btn  layui-btn-warm" type="button" id="exceptionCustBtn"><i class="layui-icon layui-icon-tips"> 异常</i></button>
-						<button class="layui-btn layui-btn-normal" type="button" id="upgradeCustBtn"><i class="layui-icon layui-icon-rate"> 升级金牌鉴定师</i></button>
+						<button class="layui-btn layui-btn-normal" type="button" id="recoveryApprBtn"><i class="layui-icon layui-icon-refresh"> 恢复</i></button>
 						<table id="custListTb"
 							class="table table-responsive table-hover"
 							lay-filter="apprListTBFilter">
@@ -137,7 +135,7 @@
 			table.render({
 				elem : '#custListTb',
 				height : 500,
-				url : '${PATH}/appraisal/getMemberApprList',
+				url : '${PATH}/appraisal/getExceptionApprList',
 				text : {
 					none : '未找到技师'
 				},
@@ -301,12 +299,12 @@
 			});
 		});
 	})
-	//批量通过
-	$("#agreeApprBtn").click(function(){
+	//批量恢复
+	$("#recoveryApprBtn").click(function(){
 		layui.use(['table','layer'], function() {
 			var table = layui.table
 			,layer = layui.layer;
-			layer.confirm('确认通过选定的用户吗？', function(index){
+			layer.confirm('真的恢复行么', function(index){
 				var checkStatus = table.checkStatus('custListTbId');
 				var datas = checkStatus.data
 				var ids = new Array();
@@ -318,7 +316,7 @@
 					return null;
 				}
 				$.ajax({
-					url:"${PATH}/appraisal/agreeApprByIds",
+					url:"${PATH}/appraisal/recoveryApprByIds",
 					method:"POST",
 					contentType: "application/json",//必须指定，否则会报415错误
 				    dataType : 'json',
@@ -344,92 +342,7 @@
 			});
 		});
 	})
-	//批量异常
-	$("#exceptionCustBtn").click(function(){
-		layui.use(['table','layer'], function() {
-			var table = layui.table
-			,layer = layui.layer;
-			layer.confirm('确认拉黑用户吗？', function(index){
-				var checkStatus = table.checkStatus('custListTbId');
-				var datas = checkStatus.data
-				var ids = new Array();
-				$(datas).each(function(){
-					ids.push($(this)[0].apprerId);
-				})
-				if(ids.length==0){
-					layer.msg("请选择数据！");
-					return null;
-				}
-				$.ajax({
-					url:"${PATH}/appraisal/exceptionApprByIds",
-					method:"POST",
-					contentType: "application/json",//必须指定，否则会报415错误
-				    dataType : 'json',
-					data:JSON.stringify(ids),
-					success:function(res){
-						console.log(res)
-						if(res.code == 100){
-							layer.msg(res.extend.msg,{icon:6},function(){
-								renderTb();
-							});
-						}else{
-							layer.msg(res.extend.msg,{icon:5},function(){
-								renderTb();
-							});
-						}
-					},error:function(){
-						layer.msg("系统错误！",{icon:5},function(){
-							renderTb();
-						});
-					}
-				});	
-			  layer.close(index);
-			});
-		});
-	})
-	//批量升级
-	$("#upgradeCustBtn").click(function(){
-		layui.use(['table','layer'], function() {
-			var table = layui.table
-			,layer = layui.layer;
-			layer.confirm('确认升级用户吗？', function(index){
-				var checkStatus = table.checkStatus('custListTbId');
-				var datas = checkStatus.data
-				var ids = new Array();
-				$(datas).each(function(){
-					ids.push($(this)[0].apprerId);
-				})
-				if(ids.length==0){
-					layer.msg("请选择数据！");
-					return null;
-				}
-				$.ajax({
-					url:"${PATH}/appraisal/vipApprByIds",
-					method:"POST",
-					contentType: "application/json",//必须指定，否则会报415错误
-				    dataType : 'json',
-					data:JSON.stringify(ids),
-					success:function(res){
-						console.log(res)
-						if(res.code == 100){
-							layer.msg(res.extend.msg,{icon:6},function(){
-								renderTb();
-							});
-						}else{
-							layer.msg(res.extend.msg,{icon:5},function(){
-								renderTb();
-							});
-						}
-					},error:function(){
-						layer.msg("系统错误！",{icon:5},function(){
-							renderTb();
-						});
-					}
-				});	
-			  layer.close(index);
-			});
-		});
-	})
+	
 	</script>
 <script type="text/html" id="barDemo">
   <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>

@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.xyl.brandAndSort.beans.Brand;
 import com.xyl.brandAndSort.service.BrandService;
+import com.xyl.brandAndSort.service.SortService;
 import com.xyl.utils.AnalysisKeyWordsListUtils;
 import com.xyl.utils.ConstantUtils;
 import com.xyl.utils.Msg;
@@ -39,7 +41,7 @@ import com.xyl.utils.UploadFileUtil;
 public class BrandController {
 
 	@Autowired
-	private BrandService brandSer;
+	private BrandService brandSer;		//品牌
 	
 	/**
 	 *得到所有的展示品牌（前台展示）

@@ -161,6 +161,7 @@ public class EmailUntils {
             return false;
         } 
     }
+   
     
     /**
      * 反驳和同意通用的邮件（客户）
@@ -168,7 +169,7 @@ public class EmailUntils {
     public boolean sendEmailsRollBack(String receive ,String isOwe,Map map,Float nowMoney) {
     	Long object = (Long) map.get("createTime");
     	String rechargeSort = (String) map.get("rechargeSort");
-    	int rechargeMoney = (int) map.get("rechargeMoney");
+    	Integer rechargeMoney = (Integer) map.get("rechargeMoney");
     	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这个是你要转成后的时间的格式
     	String sd = sdf.format(new Date(object)); 
     	try {
@@ -184,6 +185,48 @@ public class EmailUntils {
     			sendHtml = "尊敬的客户您好！<hr>您的账户在<span style='color:blue;'>"+sd+"</span>，"+rechargeSort+""+rechargeMoney+"元失败！<br>并且由于您的消费使得当前积分<span style='color:blue;'>"+nowMoney+"</span>！请您尽快充值！";
     		}else{
     			sendHtml = "尊敬的客户您好！<hr>抱歉！您的账户出现异常在<span style='color:blue;'>"+sd+"</span>，"+rechargeSort+""+rechargeMoney+"元失败！<br>";
+    		}
+    		email.setHtmlMsg(sendHtml);
+    		// 收件人
+    		if (null != receive) {
+    			email.addTo(receive);
+    		}
+    		//发送
+    		try {
+    			email.send();
+    			return true;
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			return false;
+    		}
+    		
+    	} catch (EmailException e) {
+    		e.printStackTrace();
+    		return false;
+    	} 
+    }
+    /**
+     * 提现失败和成功
+     * */
+    public boolean cashSuccessOrFail(String receive ,String isSuccess,Map map) {
+    	Long object = (Long) map.get("createTime");
+    	Integer rechargeMoney = (Integer) map.get("cashMoney");
+    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//这个是你要转成后的时间的格式
+    	String sd = sdf.format(new Date(object)); 
+    	try {
+    		HtmlEmail email = new HtmlEmail();
+    		// 配置信息
+    		email.setHostName(hostName);
+    		email.setFrom(senderEmail,senderNick);
+    		email.setAuthentication(senderEmail,userInfo);
+    		email.setCharset(chartset);
+    		email.setSubject(emailSubject);
+    		String sendHtml = null;
+    		if(isSuccess.equals("success")) {
+    			sendHtml = "尊敬的客户您好！<hr>您的账户在<span style='color:blue;'>"+sd+"</span>提现"+rechargeMoney+"元成功！请注意查收<br>！";
+    		}else{
+    			sendHtml = "尊敬的客户您好！<hr>抱歉！由于您的账户或提现账号出现异常在<span style='color:blue;'>"+sd+"</span>提现"+rechargeMoney+"元失败！<br>";
     		}
     		email.setHtmlMsg(sendHtml);
     		// 收件人
@@ -223,7 +266,7 @@ public class EmailUntils {
     		email.setSubject(emailSubject);
     		String sendHtml = null;
     		if(isSuccess.equals("success")) {
-    			sendHtml = "尊敬的客户您好！<hr>您的账户已经<span style='color:blue;'>通过审核</span>！您可以凭借真实姓名或邮箱登录进行接单啦！";
+    			sendHtml = "尊敬的客户您好！<hr>您的账户已经<span style='color:blue;'>通过审核</span>！您可以凭借真实姓名或邮箱登录进行鉴定啦！";
     		}else{
     			sendHtml = "尊敬的客户您好！<hr>抱歉！您的账户<span style='color:blue;'>未通过审核</span>！<br>请您重新申请或添加客服<span style='color:orange;'>QQ：123456789</span>了解详细申请规则！";
     		}

@@ -41,7 +41,6 @@ public class FlowApprController {
 			,@RequestParam("money")Float money) {
 		Appraisal appr = apprSer.selectById(id);
 		Float old = appr.getApprIntegral();
-		
 		appr.setApprIntegral(old+integral);
 		FlowAppr flow = new FlowAppr();
 		flow.setApprId(id);

@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>登录/注册</title>
+<title>鉴定师个人中心</title>
 
 <!-- Bootstrap -->
 <link href="${PATH}/pages/static/css/bootstrap.min.css" rel="stylesheet">
@@ -26,6 +26,8 @@
 <link rel="icon" href="${PATH}/pages/static/images/favicon.png">
 <link href="${PATH}/static/layui/css/layui.css" rel='stylesheet'
 	type='text/css' />
+	<script type="text/javascript" src="${PATH}/static/vue/vue.min.js"></script>
+<script type="text/javascript" src="${PATH}/static/vue/vue-resource.min.js"></script>
 
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -120,6 +122,7 @@
           <div class="form-group" align="center">
               <img alt="头像" style="width: 80px;height: 80px"  src="${appr.apprHeader}">
             </div>
+          
           	 <div class="col-sm-6">
 	            <div class="form-group">
 	              <label>序列号</label>
@@ -132,6 +135,11 @@
 	            <div class="form-group">
 	              <label>鉴定价格</label>
 	              <input type="text" readonly="readonly" value="${appr.apprPrice}" class="form-control">
+	            </div>
+	            <div class="form-group">
+	              <label>身份</label>
+	              <input type="text" style="color: orange" readonly="readonly" value="${appr.apprVip}" class="form-control">
+	              <input type="button" class="layui-btn layui-btn-primary" id="vipBtn" value="点击升级金牌会员"/>
 	            </div>
 	            <div class="form-group">
 	              <label>自我介绍</label>
@@ -148,38 +156,46 @@
 	              <input type="text" readonly="readonly" value="${appr.apprNick}" class="form-control">
 	            </div>
 	            <div class="form-group">
+	              <label>擅长品牌</label>
+	              <input type="text" readonly="readonly" id="goodAtBrands" class="form-control">
+	            </div>
+	            <div class="form-group">
+	              <label>擅长分类</label>
+	              <input type="text" readonly="readonly" id="goodAtSorts" class="form-control">
+	            </div>
+	            <div class="form-group">
 	              <label>积分</label>
 	              <input type="text" readonly="readonly" value="${appr.apprIntegral}" class="form-control">
 	              <input type="button" class="layui-btn layui-btn-primary" id="apprRechargeBtn" value="点击充值积分"/>&nbsp;&nbsp;&nbsp;&nbsp;
 	              <input type="button" class="layui-btn layui-btn-primary" id="apprCashBtn" value="点击提现积分"/>
 	            </div>
-	            <div class="form-group">
-	              <label>身份</label>
-	              <input type="text" style="color: orange" readonly="readonly" value="${appr.apprVip}" class="form-control">
-	              <input type="button" class="layui-btn layui-btn-primary" id="vipBtn" value="点击升级金牌会员"/>
-	            </div>
             </div>
           </div>
         </div>
+        <!-- 修改信息 -->
         <div role="tabpanel" class="tab-pane fade" id="profile">
-          <form class="callus" action="${PATH}/cust/regiterCust" method="post">
+          <form class="callus"  id="editApprForm">
           	<input type="hidden" value="${appr.apprerId}" id="apprerIdInput" name="apprerId">
+          	<input type="hidden" value="${appr.apprEmail}" id="apprerEmailInput" name="apprEmail">
+          	<input type="hidden" value="${appr.apprIdent}"  name="apprIdent">
+          	<div class="form-group" align="center">
+            	<div class="layui-form-item">
+                    <input type="hidden" name="apprHeader" id="productImg"/>
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn" id="productImgButton">上传头像</button>
+                        <div class="layui-upload-list">
+                            <img style="width: 80px;height: 80px" class="layui-upload-img" id="productImgImg">
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
               <label>昵称</label>
-              <input type="text" name="custNick" class="form-control" placeholder="请输入昵称">
+              <input type="text" name="apprNick" class="form-control" placeholder="请输入昵称">
             </div>
             <div class="form-group">
-              <label>登录名</label>
-              <input type="text" name="custName" class="form-control" placeholder="请输入登录名(请勿包含中文)">
-            </div>
-            <div class="form-group">
-              <label>邮箱</label>
-              <input type="email" id="regiterEmailInput" name="custEmail" class="form-control" placeholder="请输入邮箱">
-            </div>
-            <div class="form-group">
-              <label>验证码</label>
-              <input type="text" class="form-control" name="formCode" placeholder="请输入邮箱验证码"><br>
-              <input type="button" class="layui-btn  layui-btn-primary" id="codeBtn" value="点击获取验证码" onclick="sendemail()"/>
+              <label>鉴定定价</label>
+              <input type="number" name="apprPrice" class="form-control" placeholder="请输入价格">
             </div>
             <div class="form-group">
               <label>请输入密码</label>
@@ -189,39 +205,51 @@
               <label>请再次输入密码</label>
               <input type="password" name="formPwd2" class="form-control" placeholder="请再次输入密码">
             </div>
-            <button type="submit" class="btn btn_dark btn_full">注册</button>
+            <div class="form-group">
+            	<h4 style="padding-bottom: 5px">鉴定专长：</h4>
+				<div class="row" id="showBrandAndSorts">
+					<div class="col-md-3 col-sm-6">
+						<div class="emp_cate equal_inner">
+							<h5 class="text-uppercase select-title">品牌</h5>
+							<label class="clearfix" v-for="item in brands">
+								<div class="squaredFour">
+									<input :id="item.brandNumber" :value="item.brandId" name="brands"  type="checkbox"> 
+									<label :for="item.brandNumber"></label>
+								</div>
+								<h6 class="bottom5" v-text = 'item.brandName'></h6>
+							</label> 
+						</div>
+					</div>
+					<div class="col-md-3 col-sm-6"></div>
+					<div class="col-md-3 col-sm-6">
+						<div class="emp_cate equal_inner">
+							<h5 class="text-uppercase select-title">分类</h5>
+							<label class="clearfix" v-for="item in sorts">
+								<div class="squaredFour">
+									<input :id="item.sortId" :value="item.sortId" name="sorts"  type="checkbox"> 
+									<label :for="item.sortId"></label>
+								</div>
+								<h6 class="bottom5" v-text = 'item.sortName'></h6>
+							</label>
+						</div>
+					</div>
+				</div>
+				</div>
+            <div class="form-group">
+              <label>自我介绍</label>
+              <textarea   name="apprRemark"  class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+              <label>验证码</label>
+              <input type="text" class="form-control" name="formCode" placeholder="请输入邮箱验证码"><br>
+              <input type="button" class="layui-btn  layui-btn-primary" id="codeBtn" value="点击获取验证码" onclick="sendemail()"/>
+            </div>
+            <button type="button" id="editApprBtn" class="btn btn_dark btn_full">修改</button>
           </form>
         </div>
+        <!-- 请求鉴定表 -->
         <div role="tabpanel" class="tab-pane fade" id="order">
-          <form class="callus" action="${PATH}/cust/regiterCust" method="post">
-          	<input type="hidden" name="custHeader" value="/file/header/2.jpg" />
-            <div class="form-group">
-              <label>昵称</label>
-              <input type="text" name="custNick" class="form-control" placeholder="请输入昵称">
-            </div>
-            <div class="form-group">
-              <label>登录名</label>
-              <input type="text" name="custName" class="form-control" placeholder="请输入登录名(请勿包含中文)">
-            </div>
-            <div class="form-group">
-              <label>邮箱</label>
-              <input type="email" id="regiterEmailInput" name="custEmail" class="form-control" placeholder="请输入邮箱">
-            </div>
-            <div class="form-group">
-              <label>验证码</label>
-              <input type="text" class="form-control" name="formCode" placeholder="请输入邮箱验证码"><br>
-              <input type="button" class="layui-btn  layui-btn-primary" id="codeBtn" value="点击获取验证码" onclick="sendemail()"/>
-            </div>
-            <div class="form-group">
-              <label>请输入密码</label>
-              <input type="password" name="formPwd1" class="form-control" placeholder="请输入密码">
-            </div>
-            <div class="form-group">
-              <label>请再次输入密码</label>
-              <input type="password" name="formPwd2" class="form-control" placeholder="请再次输入密码">
-            </div>
-            <button type="submit" class="btn btn_dark btn_full">注册</button>
-          </form>
+         
         </div>
       </div>
     </div>
@@ -244,12 +272,13 @@
 </footer>
 <!--Footer Ends-->
 <!-- 模态框 -->
+<!-- 提现模态框 -->
 <div id="cashModal" style="display: none;">
 		<div class="layui-row">
 			<div class="layui-col-md8  layui-col-md-offset2"
 				style="margin: 10px">
 				<form class="layui-form" id="cash_form">
-					<input type="hidden" name="apprId" id="techn-cash" value="${appr.apprerId}">
+					<input type="hidden" name="apprId" id="appr-cash" value="${appr.apprerId}">
 					<input type="hidden" name="oldIntegral" value="${appr.apprIntegral}">
 					<div class="layui-form-item">
 						<label class="layui-form-label" style="width: 100px">提现方式</label>
@@ -292,6 +321,7 @@
 			</div>
 		</div>
 	</div>
+	<!-- 充值模态框 -->
 <div id="rachargeModal" style="display: none;">
 		<div class="layui-row">
 			<div class="layui-col-md8  layui-col-md-offset2"
@@ -348,12 +378,71 @@
 <script src="${PATH}/static/layui/layui.all.js"></script>
 </body>
 <script type="text/javascript">
+var showDiv = new Vue({
+	el:"#showBrandAndSorts",
+	data:{
+		brands:[],
+		sorts:[]
+	},created: function () {
+		//展示品牌
+		this.$http.get("${PATH}/brand/getBrandsByShow").then(function(response){
+			//成功
+			this.brands=response.body;
+		},function(response) {
+			//错误
+			console.log("系统错误！")
+		});
+		//展示分类
+		this.$http.get("${PATH}/sort/getSortssByShow").then(function(response){
+			//成功
+			this.sorts=response.body;
+		},function(response) {
+			//错误
+			console.log("系统错误！")
+		});
+	}
+});
+$(function() {
+	var ident= "${appr.apprIdent}"
+	$.ajax({
+		url:"${PATH}/appraisal/getByApprIdent/"+ident,
+		method:"get",
+		success:function(res){
+			$("#goodAtBrands").val(res.brand);
+			$("#goodAtSorts").val(res.sort)
+		}
+	});
+});
+</script>
+<script type="text/javascript">
+var contextPath = "${PATH}/static/"
+layui.config({
+    base: contextPath + 'layui/easyCropper/' //layui自定义layui组件目录
+})
+layui.use(['easyCropper'], function(){
+    var easyCropper = layui.easyCropper;
+    //创建一个图片裁剪上传组件
+    var productImgCropper = easyCropper.render({
+        elem: '#productImgButton'
+        ,saveW:380     //保存宽度
+        ,saveH:360     //保存高度
+        ,mark:1/1   //选取比例
+        ,size: 2048    // 大小限制 默认1024k 选填
+        ,area:'600px'  //弹窗宽度
+        ,url: '${PATH}/appraisal/uploadHeaderImg'  //图片上传接口返回和（layui 的upload 模块）返回的JOSN一样
+        ,done: function(url){ //上传完毕回调
+            $("#productImg").val(url);
+            $("#productImgImg").attr('src',url);
+        }
+    });
+})
+
 var countdown=60; 
 function sendemail(){
 	layui.use('layer', function(){
 	  	var layer = layui.layer;
 	  	var obj = $("#codeBtn");
-	    var email = $("#regiterEmailInput").val();
+	    var email = $("#apprerEmailInput").val();
 	    var reg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
 	    if(!reg.test(email)){
 	    	layer.msg("请输入正确的邮箱！",{icon:5});
@@ -474,7 +563,7 @@ $("#racharge_money").bind('input propertychange', function() {
 });
 //确认提现
 $("#confirm-cash").click(function() {
-	var id = $("#techn-cash").val();
+	var id = $("#appr-cash").val();
 	var data = $("#cash_form").serialize() ;
 	var integral = $("#integral").val();
 	var input_money = $("#input_money").val();
@@ -564,6 +653,28 @@ $("#confirm-racharge").click(function() {
 		});
 	})
 });
-
+$("#editApprBtn").click(function(){
+	var data = $("#editApprForm").serialize();
+	layui.use('layer', function() {
+		var layer = layui.layer;
+		$.ajax({
+			url:"${PATH}/appraisal/editInfoByAppr",
+			method:"POST",
+			data:data,
+			success:function(res){
+				if(res.code==100){
+	    			layer.msg(res.extend.msg,{icon:6},function(){
+	    				window.location.href="${PATH}/appraisal/loginOut";
+	    			});
+	    		}else{
+	    			layer.msg(res.extend.msg,{icon:5});
+	    		}
+			},error:function(){
+				layer.msg("系统错误！",{icon:5});
+	    		return;
+			}
+		});	
+	})
+});
 </script>
 </html>

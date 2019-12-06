@@ -179,7 +179,7 @@ public class RechargeCustController {
 		return resultMap;
 	}
 	/**
-	 * 得到所有客户充值或消费状态
+	 * 得到所有客户充值或消费状态(异常)
 	 * @return 
 	 * @throws ParseException 
 	 * */

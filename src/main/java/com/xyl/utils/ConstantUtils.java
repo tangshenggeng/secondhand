@@ -14,7 +14,7 @@ public class ConstantUtils {
 	/**
 	 * 鉴定师鉴定图片保存路径
 	 */
-	public static final String APPRASISAL_IMG = "D:\\graduation\\secondhand\\appr";
+	public static final String APPRASISAL_IMG = "D:\\graduation\\secondhand\\appraisal";
 	
 	
 }

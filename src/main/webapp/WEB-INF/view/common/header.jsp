@@ -79,6 +79,20 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#appr"><i class="glyphicon glyphicon-user"></i> 技师管理<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="appr" class="collapse">
+                            <li>
+                                <a href="${PATH}/appraisal/toListMemberPage">待审核鉴定师</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/appraisal/toListAgreePage">已通过鉴定师</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/appraisal/toListExceptionPage">异常鉴定师</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#integral"><i class="glyphicon glyphicon-usd"></i> 积分订单管理<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="integral" class="collapse">
                             <li>
@@ -86,6 +100,18 @@
                             </li>
                             <li>
                                 <a href="${PATH}/rechargeCust/toExceptionRechargePage">客户异常积分订单</a>
+                            </li>
+                           <%--  <li>
+                                <a href="${PATH}/rechargeCust/toWaitRechargePage">鉴定师积分订单</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/rechargeCust/toExceptionRechargePage">鉴定师异常积分订单</a>
+                            </li> --%>
+                            <li>
+                                <a href="${PATH}/cashAppr/toCashPage">申请提现订单</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/cashAppr/toSuccessCashPage">完成提现订单</a>
                             </li>
                         </ul>
                     </li>
