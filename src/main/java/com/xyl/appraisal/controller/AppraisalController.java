@@ -82,6 +82,35 @@ public class AppraisalController {
 	private FlowApprService flowSer;		//积分流动
 	
 	/**
+	 * 前台展示普通鉴定师
+	 * @return 
+	 * */
+	@RequestMapping(value="/getGeneralApprsByShow",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Appraisal> getGeneralApprsByShow() {
+		ArrayList<String> columns = new ArrayList<>();
+		columns.add("appr_integral");
+		columns.add("appr_num");
+		List<Appraisal> list = apprSer.selectList(new EntityWrapper<Appraisal>().eq("appr_vip","普通鉴定师")
+				.eq("appr_state","通过").orderDesc(columns));
+		return list;
+	}
+	/**
+	 * 前台展示金牌鉴定师
+	 * @return 
+	 * */
+	@RequestMapping(value="/getVipApprsByShow",method=RequestMethod.GET)
+	@ResponseBody
+	public List<Appraisal> getVipApprsByShow() {
+		ArrayList<String> columns = new ArrayList<>();
+		columns.add("appr_integral");
+		columns.add("appr_num");
+		List<Appraisal> list = apprSer.selectList(new EntityWrapper<Appraisal>().eq("appr_vip","金牌鉴定师")
+				.eq("appr_state","通过").orderDesc(columns));
+		return list;
+	}
+	
+	/**
 	 * 根据id查询客户
 	 * */
 	@RequestMapping(value="/getById/{id}",method=RequestMethod.GET)
@@ -328,11 +357,11 @@ public class AppraisalController {
 		if(old<500f) {
 			return Msg.fail().add("msg","对不起！您的积分不足！请先充值！");
 		}
-		if(appr.getApprVip().equals("金牌鉴定员")) {
+		if(appr.getApprVip().equals("金牌鉴定师")) {
 			return Msg.fail().add("msg","您已经是金牌鉴定师啦！");
 		}
 		appr.setApprIntegral(old-500);
-		appr.setApprVip("金牌鉴定员");
+		appr.setApprVip("金牌鉴定师");
 		FlowAppr flow = new FlowAppr();
 		flow.setApprId(apprid);
 		flow.setFlowState("100");
@@ -586,5 +615,18 @@ public class AppraisalController {
 			}
 			return false;
 		}
+	//去往求鉴定界面
+	@RequestMapping(value="/toAskForApprPage/{ident}/{id}")
+	public String toAskForApprPage(@PathVariable("ident")String ident
+			,@PathVariable("id")Integer id,Model model) {
+		Appraisal one = apprSer.selectOne(new EntityWrapper<Appraisal>().eq("appr_ident", ident)
+				.eq("apprer_id", id));
+		if(one!=null) {
+			model.addAttribute("appr", one);
+			return "forward:/pages/appraisal/ask-for-appr.jsp";
+		}
+		model.addAttribute("error", "未找到该鉴定师！");
+		return "forward:/pages/appraisal/vipAppr.jsp";
+	}
 }
 

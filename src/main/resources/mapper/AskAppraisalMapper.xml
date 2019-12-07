@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyl.ask.mapper.AskAppraisalMapper">
+
+    <!-- 开启二级缓存 -->
+   <!--  <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/> -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xyl.ask.beans.AskAppraisal">
+        <id column="ask_id" property="askId" />
+        <result column="ask_ident" property="askIdent" />
+        <result column="cust_id" property="custId" />
+        <result column="cust_nick" property="custNick" />
+        <result column="appr_id" property="apprId" />
+        <result column="appr_ident" property="apprIdent" />
+        <result column="appr_price" property="apprPrice" />
+        <result column="wares_name" property="waresName" />
+        <result column="wares_img_one" property="waresImgOne" />
+        <result column="wares_img_two" property="waresImgTwo" />
+        <result column="wares_img_three" property="waresImgThree" />
+        <result column="wares_remark" property="waresRemark" />
+        <result column="ask_state" property="askState" />
+        <result column="create_time" property="createTime" />
+        <result column="appr_time" property="apprTime" />
+        <result column="is_del" property="isDel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ask_id, ask_ident, cust_id, cust_nick, appr_id, appr_ident, appr_price, wares_name, wares_img_one, wares_img_two, wares_img_three, wares_remark, ask_state, create_time, appr_time, is_del
+    </sql>
+
+</mapper>

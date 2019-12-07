@@ -51,6 +51,9 @@
 					      	</div>
 					      <div class="list">
 				              <a class="list-entry" href="${PATH}/cust/getCustInfo/${sessionScope.id}/${sessionScope.name}">
+				                	发布商品
+				              </a>
+				              <a class="list-entry" href="${PATH}/cust/getCustInfo/${sessionScope.id}/${sessionScope.name}">
 				                	个人中心
 				              </a>
 				              <a class="list-entry" href="${PATH}/cust/loginOut">
@@ -106,10 +109,10 @@
             <ul class="dropdown-menu megamenu-content" role="menu">
               <li>
                 <div class="row">
-                  <div class="col-menu col-md-3">
-                    <h6 class="title">Categories</h6>
+                  <!-- <div class="col-menu col-md-3">
+                    <h6 class="title">普通鉴定师</h6>
                     <div class="content">
-                      <ul class="menu-col">
+                      <ul class="menu-col" id="show">
                         <li><a href="shop-detail2.html">Shop — Catalog</a></li>
                         <li><a href="shop-detail1.html">Shop — Categories Grid</a></li>
                         <li><a href="shop5.html">Shop — Product Category</a></li>
@@ -118,10 +121,10 @@
                         <li><a href="shop-cart.html">Checkout</a></li>
                       </ul>
                     </div>
-                  </div>
+                  </div> -->
                   <!-- end col-3 -->
-                  <div class="col-menu col-md-3">
-                    <h6 class="title">Products demos</h6>
+                  <!-- <div class="col-menu col-md-3">
+                    <h6 class="title">金牌鉴定师</h6>
                     <div class="content">
                       <ul class="menu-col">
                         <li><a href="shop-recent1.html">Shop — Catalog</a></li>
@@ -132,21 +135,8 @@
                         <li><a href="shop-cart.html">Order Tracking</a></li>
                       </ul>
                     </div>
-                  </div>
+                  </div> -->
                   <!-- end col-3 -->
-                  <div class="col-menu col-md-3">
-                    <h6 class="title">鉴定师</h6>
-                    <div class="content">
-                      <ul class="menu-col">
-                        <li><a href="${PATH}/pages/appraisal/regiter.jsp">申请加入</a></li>
-                        <li><a href="${PATH}/pages/appraisal/login.jsp">登录入口</a></li>
-                        <li><a href="shop5.html">鉴定师说明</a></li>
-                        <li><a href="shop3.html">Shop — with Sidebar</a></li>
-                        <li><a href="wishlist.html">Shopping Cart</a></li>
-                        <li><a href="shop-cart.html">Order Tracking</a></li>
-                      </ul>
-                    </div>
-                  </div>
                   <div class="col-menu col-md-3">
                     <div class="content">
                       <div class="image">
@@ -158,6 +148,19 @@
                       </div>
                     </div>
                   </div>
+                  <div class="col-menu col-md-3">
+                    <h6 class="title">鉴定师</h6>
+                    <div class="content">
+                      <ul class="menu-col">
+                        <li><a href="${PATH}/pages/appraisal/regiter.jsp">申请加入</a></li>
+                        <li><a href="${PATH}/pages/appraisal/login.jsp">登录入口</a></li>
+                        <li><a style="color: orange;" href="${PATH}/pages/appraisal/vipAppr.jsp">金牌鉴定师</a></li>
+                        <li><a href="${PATH}/pages/appraisal/generalAppr.jsp">普通鉴定师</a></li>
+                        <li><a href="shop5.html">鉴定师说明</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                  
                   <!-- end col-3 -->
                 </div>
                 <!-- end row -->

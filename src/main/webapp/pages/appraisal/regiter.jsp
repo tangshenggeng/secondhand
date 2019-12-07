@@ -165,7 +165,7 @@
 				</div>
             <div class="form-group">
               <label>备注</label>
-              <textarea type="password" name="apprRemark" class="form-control" placeholder="请输入"></textarea>
+              <textarea  name="apprRemark" class="form-control" placeholder="请输入"></textarea>
             </div>
             <div class="form-group">
             	<div class="layui-form-item">

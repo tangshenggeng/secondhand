@@ -4,16 +4,16 @@
   <div class="container footerBg">
     <div class="row">
       <div class="col-sm-12 text-center">
-        <h2 class="text-uppercase bottom10">Join Our Newsletter</h2>
+        <h2 class="text-uppercase bottom10">鉴定商品真伪查询</h2>
         <p class="heading_space">Get 10% off your first purchase. by subscribing to our Newsletter.</p>
         <div class="row">
           <div class="col-sm-2"></div>
           <div class="col-sm-8">
             <form>
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Email Address" required>
+                <input type="text" id="waresIdentInput" class="form-control" placeholder="请输入鉴定码" required>
                 <span class="input-group-btn">
-                <button type="button"><i class="icon-arrow-right2"></i></button>
+                <button id="findApprWareByIdent" type="button"><i class="icon-arrow-right2"></i></button>
                 </span>
               </div>
             </form>
@@ -41,3 +41,63 @@
     </div>
   </div>
 </footer>
+<link href="${PATH}/static/layui/css/layui.css" rel='stylesheet'
+	type='text/css' />
+<!-- 模态框 -->
+<div id="rachargeModal" style="display: none;">
+	<fieldset class="layui-elem-field layui-field-title" style="margin: 30px auto;width: 700px">
+  		<legend>
+  			<div>
+  				<h4>鉴定码：<span id="apprIdentSpan"></span></h4><br>
+  				<h4>鉴定人：<span id="custNickSpan"></span></h4><br>
+  				<h4>鉴定师：<span id="appraisalSpan"></span></h4><br>
+  				<h4>鉴定结果：<span style="color: red" id="apprResultSpan"></span></h4>
+  			</div>
+  		</legend>
+	</fieldset>
+</div>
+<script src="${PATH}/pages/static/js/jquery.2.2.3.min.js"></script>
+<script src="${PATH}/static/layer/layer.js"></script>
+<script type="text/javascript">
+	$("#findApprWareByIdent").click(function(){
+		var ident = $("#waresIdentInput").val();
+		if(ident==""){
+			layer.msg("请输入鉴定码！");
+			return false;
+		}
+		$.ajax({
+			url:"${PATH}/askAppraisal/findWaresByIdent/"+ident,
+			method:"get",
+			success:function(res){
+				console.log(res)
+				if(res.code==100){
+					$("#apprIdentSpan").html(res.extend.appr.askIdent);
+					$("#custNickSpan").html(res.extend.appr.custNick);
+					$("#appraisalSpan").html(res.extend.appr.apprNick);
+					$("#apprResultSpan").html(res.extend.appr.askState);
+					layer.open({
+						type : 1,//类型
+						area : [ '800px', '300px' ],//定义宽和高
+						title : '鉴定商品查询',//题目
+						anim: 6,
+						resize :false,
+						move :false,
+						shadeClose : false,//点击遮罩层关闭
+						content : $('#rachargeModal'),
+						cancel: function(index, layero){ 
+							 $("#rachargeModal").css("display","none")
+						} 
+					});
+				}else{
+					layer.msg("未查询到鉴定商品信息!",function(){
+						//location.reload()    
+					})
+					
+				}
+			},error:function(){
+				layer.msg("系统错误！")				
+			}
+		})
+	});
+</script>
+
