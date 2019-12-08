@@ -134,6 +134,7 @@
   </div>
 </section> --%>
 <!--Meet the Team-->
+
 <section id="team" class="padding_b">
   <div class="container">
     <div class="row text-center" id="showVipAppr">

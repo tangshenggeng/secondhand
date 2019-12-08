@@ -642,6 +642,20 @@ public class CustController {
 	public String toListCustPage() {
 		return "/custs/list-member";
 	}
+	//去往发布商品页面
+	@RequestMapping(value="/toReleaseWarePage/{id}/{name}",method=RequestMethod.GET)
+	public String toReleaseWarePage(@PathVariable("id")Integer id
+			,@PathVariable("name")String name,Model model) {
+		EntityWrapper<Cust> wrapper = new EntityWrapper<>();
+		wrapper.eq("cust_id", id).eq("cust_name", name);
+		Cust cust = custSer.selectOne(wrapper);
+		if(cust == null) {
+			model.addAttribute("findInfoError", "未查询到客户信息！");
+			return "forward:/pages/cust/release-ware.jsp";
+		}
+		model.addAttribute("cust", cust);
+		return "forward:/pages/cust/release-ware.jsp";
+	}
 	
 	@RequestMapping(value="/toListVIPPage",method=RequestMethod.GET)
 	public String toListVIPPage() {

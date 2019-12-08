@@ -20,9 +20,8 @@ public class EmailUntils {
     //主题
     private static final String emailSubject = "来自“遇您识货”的通知";
     
-    /**
-     * 后台添加客户通知
-     * */
+    
+    
     public boolean addCustByAdmin(Map map) {
     	try {
             HtmlEmail email = new HtmlEmail();
@@ -52,6 +51,77 @@ public class EmailUntils {
             e.printStackTrace();
             return false;
         } 
+    }
+    /**
+     * 申请鉴定通知
+     * */
+    public boolean noticeCustAppr(String receive ,String code) {
+    	try {
+    		HtmlEmail email = new HtmlEmail();
+    		// 配置信息
+    		email.setHostName(hostName);
+    		email.setFrom(senderEmail,senderNick);
+    		email.setAuthentication(senderEmail,userInfo);
+    		email.setCharset(chartset);
+    		email.setSubject(emailSubject);
+    		String sendHtml = "尊敬的客户您好！<hr>您的鉴定申请码为"+code;
+    		email.setHtmlMsg(sendHtml);
+    		// 收件人
+    		if (null !=receive) {
+    			email.addTo(receive);
+    		}
+    		//发送
+    		try {
+    			email.send();
+    			return true;
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			return false;
+    		}
+    		
+    	} catch (EmailException e) {
+    		e.printStackTrace();
+    		return false;
+    	} 
+    }
+    /**
+     * 鉴定结果通知
+     * */
+    public boolean appraisalWare(String receive ,String code,String isReadlly) {
+    	try {
+    		HtmlEmail email = new HtmlEmail();
+    		// 配置信息
+    		email.setHostName(hostName);
+    		email.setFrom(senderEmail,senderNick);
+    		email.setAuthentication(senderEmail,userInfo);
+    		email.setCharset(chartset);
+    		email.setSubject(emailSubject);
+    		String sendHtml="";
+    		if(isReadlly.equals("readlly")) {
+    			 sendHtml = "尊敬的客户您好！<hr>恭喜您！您鉴定码为"+code+"的商品，鉴定结果为真品！";
+    		}else {
+    			sendHtml = "尊敬的客户您好！<hr>抱歉！您鉴定码为"+code+"的商品，鉴定结果为非真品！";
+    		}
+    		email.setHtmlMsg(sendHtml);
+    		// 收件人
+    		if (null !=receive) {
+    			email.addTo(receive);
+    		}
+    		//发送
+    		try {
+    			email.send();
+    			return true;
+    		} catch (Exception e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    			return false;
+    		}
+    		
+    	} catch (EmailException e) {
+    		e.printStackTrace();
+    		return false;
+    	} 
     }
     
     /**

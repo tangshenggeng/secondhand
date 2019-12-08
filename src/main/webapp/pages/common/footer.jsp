@@ -89,9 +89,7 @@
 						} 
 					});
 				}else{
-					layer.msg("未查询到鉴定商品信息!",function(){
-						//location.reload()    
-					})
+					layer.msg("未查询到鉴定商品信息!")
 					
 				}
 			},error:function(){

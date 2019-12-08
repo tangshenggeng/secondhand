@@ -24,7 +24,26 @@
 <link rel="stylesheet" type="text/css" href="${PATH}/pages/static/css/bootsnav.css">
 <link rel="stylesheet" type="text/css" href="${PATH}/pages/static/css/style.css">
 <link rel="icon" href="${PATH}/pages/static/images/favicon.png">
-
+<style>
+	#projects,#projects_1{
+		height: 584px !important
+	}
+	.shop_buttons_my {
+	float:right;
+	margin-top:10px;
+    bottom: 5px;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+.shop_buttons_my a.add_emp {
+    background: #252525;
+}
+.shop_buttons_my a {
+    color: #fff;
+    margin-left: -6px;
+    padding: 7px 10px;
+}
+</style>
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -32,6 +51,7 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
+
 <body class="boxed">
 
 <!--Pre LOADER-->
@@ -124,7 +144,7 @@
           data-start="1600"
           data-transform_idle="o:1;"
           data-transform_in="y:-50px;opacity:0;s:1500;e:Power3.easeOut;" 
-			    data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;">;">
+			    data-transform_out="s:1000;e:Power3.easeInOut;s:1000;e:Power3.easeInOut;">
           <h1 class="text-uppercase">Take a Look at Our News</h1>
         </div>
         <div class="slider-caption tp-caption tp-resizeme"
@@ -223,430 +243,77 @@
 <!--Gallery Starts-->
 <section id="emp_gallery" class="padding">
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-12 heading_space clearfix">
-        <div id="project-filter" class="cbp-l-filters top10 pull-left">
-          <div data-filter="*" class="cbp-filter-item-active cbp-filter-item">Show All</div>
-          <div data-filter=".style" class="cbp-filter-item"> Lifestyle </div>
-          <div data-filter=".shoes" class="cbp-filter-item">  Shoes  </div>
-          <div data-filter=".essentials" class="cbp-filter-item">Essentials </div>
-          <div data-filter=".fall" class="cbp-filter-item">Fall 2015 </div>
-        </div>
-         <a class="btn btn_default button_moema  btnfilter pull-right top10">
-           <i class="fa fa-th-large"></i> &nbsp; Filter
-         </a>
-         <div class="clearfix"></div>
-         <div class="container-select top20 equal_parent">
-            <div class="row">
-            <div class="col-md-3 col-sm-6">
-               <div class="emp_cate equal_inner">
-                  <h5 class="text-uppercase select-title">Categories</h5>
-                  <label class="clearfix">
-                    <div class="squaredFour">
-                     <input id="squaredFour" value="None" name="check" checked="" type="checkbox">
-                     <label for="squaredFour"></label>
-                     </div>
-                     <h6 class="bottom5">Suits &amp; Blazer</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="check2" value="None" name="check" type="checkbox">
-                     <label for="check2"></label>
-                     </div>
-                     <h6 class="bottom5">Tuxedo</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="check3" value="None" name="check" type="checkbox">
-                     <label for="check3"></label>
-                     </div>
-                     <h6 class="bottom5">Suits &amp; Bowler Hat</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="check4" value="None" name="check" checked="" type="checkbox">
-                     <label for="check4"></label>
-                     </div>
-                     <h6 class="bottom5">Dress Pants</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="check5" value="None" name="check" checked="" type="checkbox">
-                     <label for="check5"></label>
-                     </div>
-                     <h6 class="bottom5">Shoes Collection</h6>
-                  </label>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-               <div class="emp_cate dotted equal_inner">
-                  <h5 class="text-uppercase select-title">Size</h5>
-                  <label class="clearfix">
-                    <div class="squaredFour">
-                     <input id="check6" value="None" name="check" checked="" type="checkbox">
-                     <label for="check6"></label>
-                     </div>
-                     <h6 class="bottom5">S</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="m" value="None" name="check" checked="" type="checkbox">
-                     <label for="m"></label>
-                     </div>
-                     <h6 class="bottom5">M</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="l" value="None" name="check" type="checkbox">
-                     <label for="l"></label>
-                     </div>
-                     <h6 class="bottom5">L</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="xl" value="None" name="check" checked="" type="checkbox">
-                     <label for="xl"></label>
-                     </div>
-                     <h6 class="bottom5">XL</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="xxl" value="None" name="check" type="checkbox">
-                     <label for="xxl"></label>
-                     </div>
-                     <h6 class="bottom5">XXL</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="xxxl" value="None" name="check" checked="" type="checkbox">
-                     <label for="xxxl"></label>
-                     </div>
-                     <h6 class="bottom5">XXXL</h6>
-                  </label>
-              </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-               <div class="emp_cate dotted equal_inner">
-                  <h5 class="text-uppercase select-title">Colour</h5>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="black" value="None" name="check" type="checkbox">
-                     <label for="black"></label>
-                     </div>
-                     <h6 class="bottom5">Black <span class="color black"></span></h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="blue" value="None" name="check" type="checkbox">
-                     <label for="blue"></label>
-                     </div>
-                     <h6 class="bottom5">Blue <span class="color blue"></span></h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="grey" value="None" name="check" checked="" type="checkbox">
-                     <label for="grey"></label>
-                     </div>
-                     <h6 class="bottom5">Gray <span class="color grey"></span></h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="red" value="None" name="check" type="checkbox">
-                     <label for="red"></label>
-                     </div>
-                     <h6 class="bottom5">Red <span class="color red"></span></h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="yellow" value="None" name="check" checked="" type="checkbox">
-                     <label for="yellow"></label>
-                     </div>
-                     <h6 class="bottom5">Yellow <span class="color yellow"></span></h6>
-                  </label>
-          </div>
-            </div>
-            <div class="col-md-3 col-sm-6">
-               <div class="emp_cate dotted equal_inner">
-                  <h5 class="text-uppercase select-title">By Price</h5>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="fifty" value="None" name="check" checked="" type="checkbox">
-                     <label for="fifty"></label>
-                     </div>
-                     <h6 class="bottom5">$0.00  -  $50.00</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="hundred" value="None" name="check" checked="" type="checkbox">
-                     <label for="hundred"></label>
-                     </div>
-                     <h6 class="bottom5">$0.00  -  $100.00</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="twoh" value="None" name="check"  type="checkbox">
-                     <label for="twoh"></label>
-                     </div>
-                     <h6 class="bottom5">$0.00  -  $200.00</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="fourh" value="None" name="check" type="checkbox">
-                     <label for="fourh"></label>
-                     </div>
-                     <h6 class="bottom5">$0.00  -  $400.00</h6>
-                  </label>
-                  <label class="clearfix">
-                  <div class="squaredFour">
-                     <input id="sisteen" value="None" name="check"  type="checkbox">
-                     <label for="sisteen"></label>
-                     </div>
-                     <h6 class="bottom5">$0.00  -  $1600.00</h6>
-                  </label>
-              </div>
-            </div>
-         </div>
-         </div>
-      </div>
-    </div>
-    <div id="projects" class="cbp">
-      <div class="cbp-item shoes style fall">
-       <div class="image">
-          <div class="ptags"><span class="hot"> Hot </span></div>
-          <div class="fader">
-            <img src="${PATH}/pages/static/images/product1.jpg" alt="">
-            <img src="${PATH}/pages/static/images/product6.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price">$160.00</p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item essentials">
-        <div class="image">
-          <div class="ptags"><span class="off"> 40% </span></div>
-          <div class="fader">
-            <img src="${PATH}/pages/static/images/product2.jpg" alt="">
-            <img src="${PATH}/pages/static/images/product3.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-              <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price"><del>$160.00</del> <i class="default_color">$160.00</i></p>
-          <span class="like fill"><i class="icon-heart"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item sale">
-        <div class="image">
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product3.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product2.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-              <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price">$160.00</p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item latest rent">
-        <div class="image">
-          <div class="ptags"><span class="new"> NEW </span></div>
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product4.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product2.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price">$160.00</p>
-        </div>
-      </div>
-      <div class="cbp-item sale">
-        <div class="image">
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product5.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product2.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price">$160.00</p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item latest rent">
-        <div class="image">
-          <div class="ptags"><span class="hot"> HOT </span></div>
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product6.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product1.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price">$160.00</p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item management sale">
-        <div class="image">
-          <div class="ptags"><span class="off"> 15% </span></div>
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product7.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product2.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price"><del>$160.00</del> <i class="default_color">$160.00</i></p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item services style shoes">
-        <div class="image">
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product8.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product2.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price">$160.00</p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item services sale latest">
-        <div class="image">
-          <div class="ptags"><span class="off"> 15% </span></div>
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product9.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product2.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price">$160.00</p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item shoes">
-        <div class="image">
-          <div class="ptags"><span class="hot"> HOT </span></div>
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product10.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product2.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price">$160.00</p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item services sale latest">
-        <div class="image">
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product11.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product2.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <a class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#demo"> <i class="icon-expand"></i></a>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price">$160.00</p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-      <div class="cbp-item services sale latest">
-        <div class="image">
-          <div class="ptags"><span class="hot"> HOT </span> <span class="off"> 15% </span></div>
-          <div class="fader">
-             <img src="${PATH}/pages/static/images/product12.jpg" alt="">
-             <img src="${PATH}/pages/static/images/product1.jpg" alt="">
-          </div>
-          <div class="shop_buttons">
-           <a class="add_emp" href="#."> <i class="icon-icons102"></i> add to bag </a>
-           <button class="ext_emp" href="javascript:void(0)" data-toggle="modal" data-target="#myModal"> <i class="icon-expand"></i></button>
-        </div>
-        </div>
-        <div class="product_caption padding_b">
-          <a href="#.">
-            <h6 class="bottom10">Little Barrel in White</h6>
-          </a>
-          <p class="p-price"><del>$160.00</del> <i class="default_color">$160.00</i></p>
-          <span class="like"><i class="icon-heart3"></i></span>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-12 text-center">
+
+			<div class="row">
+				<div class="col-sm-12 heading_space clearfix">
+					<a class="btn btn_default button_moema  btnfilter  top10"
+						style="color: orange"> <i class="fa fa-th-large"></i> &nbsp;
+						鉴定通过商品
+					</a>
+					<div class="clearfix"></div>
+					<br>
+					<div id="projects_1" class="cbp">
+						<!-- 商品展示 -->
+						<div  id="waresAfterAppr">
+						<div class=" sale col-sm-3" v-for="item in afters" >
+							<div class="image">
+								<div class="fader">
+									<img :src="item.imgOne" alt="">
+									<img :src="item.imgTwo" alt="">
+								</div>
+								
+							</div>
+							<div class="product_caption padding_b">
+							<div class="shop_buttons_my">
+									<a class="add_emp" href="#."> <i class="icon-icons102"></i>
+										立即购买
+									</a>
+								</div>
+								<a href="#.">
+									<h6 class="bottom10" v-text="item.wareName"></h6>
+								</a>
+								<p class="p-price" v-text="item.warePrice"></p>
+							</div>
+						</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-12 heading_space clearfix">
+					<a class="btn btn_default button_moema  btnfilter  top10"> <i
+						class="fa fa-th-large"></i> &nbsp; 未鉴定的商品
+					</a>
+					<div class="clearfix"></div>
+					<br>
+					<div id="projects" class="cbp cbp-caption-active cbp-caption-pushTop cbp-ready">
+						<!-- 商品展示 -->
+						<div  id="WaresBeforeAppr" class="row">
+						
+						<div class=" sale col-sm-3" v-for="item in befores" >
+							<div class="image">
+								<div class="fader">
+									<img :src="item.imgOne" alt="">
+									<img :src="item.imgTwo" alt="">
+								</div>
+								
+							</div>
+							<div class="product_caption padding_b">
+							<div class="shop_buttons_my">
+									<a class="add_emp" href="#."> <i class="icon-icons102"></i>
+										立即购买
+									</a>
+								</div>
+								<a href="#.">
+									<h6 class="bottom10" v-text="item.wareName"></h6>
+								</a>
+								<p class="p-price" v-text="item.warePrice"></p>
+							</div>
+						</div>
+					</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12 text-center" style="margin-top:50px">
       <div id="loadMore-gallery" class="btn btn_default button_moema margin40">
         <a href="loadmore-gallery/loadMore.html" class="cbp-l-loadMore-link" rel="nofollow">
         <span class="cbp-l-loadMore-defaultText">LOAD MORE</span>
@@ -723,5 +390,40 @@
 <script src="${PATH}/pages/static/js/revolution.extension.slideanims.min.js"></script>
 <script src="${PATH}/pages/static/js/revolution.extension.video.min.js"></script>
 <script src="${PATH}/pages/static/js/functions.js"></script>
+<script type="text/javascript">
+	var waresAfterAppr = new Vue({
+		el:"#waresAfterAppr",
+		data:{
+			afters:[],
+		},created: function () {
+			//展示分类
+			this.$http.get("${PATH}/releaseWares/getAftersIndex").then(function(response){
+				//成功
+				this.afters=response.body;
+			},function(response) {
+				//错误
+				console.log("系统错误！")
+			});
+		}
+	}) 
+	var WaresBeforeAppr = new Vue({
+		el:"#WaresBeforeAppr",
+		data:{
+			befores:[],
+		},created: function () {
+			//展示分类
+			this.$http.get("${PATH}/releaseWares/getBeforeIndex").then(function(response){
+				console.log(response.body)
+				//成功
+				this.befores=response.body;
+			},function(response) {
+				//错误
+				console.log("系统错误！")
+			});
+		},updated:function(){
+			
+		}
+	})
+</script>
 </body>
 </html>

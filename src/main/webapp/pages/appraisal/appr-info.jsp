@@ -114,7 +114,7 @@
       <ul class="nav nav-tabs nav-justified heading_space" role="tablist">
         <li role="presentation" class="active"><a href="#registered" aria-controls="registered" role="tab" data-toggle="tab">基本信息</a></li>
         <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">修改信息</a></li>
-        <li role="presentation"><a href="order" aria-controls="order" role="tab" data-toggle="tab">求鉴定</a></li>
+        <li role="presentation"><a href="#order" aria-controls="order" role="tab" data-toggle="tab">求鉴定</a></li>
       </ul>
       <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="registered">
@@ -177,7 +177,7 @@
           <form class="callus"  id="editApprForm">
           	<input type="hidden" value="${appr.apprerId}" id="apprerIdInput" name="apprerId">
           	<input type="hidden" value="${appr.apprEmail}" id="apprerEmailInput" name="apprEmail">
-          	<input type="hidden" value="${appr.apprIdent}"  name="apprIdent">
+          	<input type="hidden" value="${appr.apprIdent}" id="appr_ident" name="apprIdent">
           	<div class="form-group" align="center">
             	<div class="layui-form-item">
                     <input type="hidden" name="apprHeader" id="productImg"/>
@@ -249,7 +249,8 @@
         </div>
         <!-- 请求鉴定表 -->
         <div role="tabpanel" class="tab-pane fade" id="order">
-         
+         	<table id="ask_appr_tb" lay-filter="ask_tb_filter">
+         	</table>
         </div>
       </div>
     </div>
@@ -351,7 +352,16 @@
 			</div>
 		</div>
 	</div>
-
+<!-- 查看商品图片 -->
+<div id="lookWareImgModal" style="display: none;">
+	<div class="layui-carousel" id="test1" align="center">
+	  <div carousel-item align="center">
+	    <div align="center"><img alt="" align="middle" id="imgOneModal"></div>
+	    <div align="center"><img alt="" align="middle" id="imgTwoModal"></div>
+	    <div align="center"><img alt="" align="middle" id="imgThreeModal"></div>
+	  </div>
+	</div>
+</div>
 
 <script src="${PATH}/pages/static/js/jquery.2.2.3.min.js"></script>
 <script src="${PATH}/pages/static/js/bootstrap.min.js"></script>
@@ -676,5 +686,136 @@ $("#editApprBtn").click(function(){
 		});	
 	})
 });
+</script>
+<script type="text/javascript">
+$(function() {
+	renderTb();
+});
+function renderTb(){
+	layui.use(['table','layer'], function(){
+		var ident = $("#appr_ident").val();
+		var apprid = $("#appr-cash").val();
+		var table = layui.table,
+		layer=layui.layer;
+		  //第一个实例
+		  table.render({
+		    elem: '#ask_appr_tb'
+		    ,height: 600
+		    ,url: '${PATH}/askAppraisal/getAskByAppr' //数据接口
+		    ,where: {ident:ident, apprid: apprid}
+		    ,method:"post"
+		    ,contentType: "application/json"//必须指定，否则会报415错误
+			,dataType : 'json'
+			,text : {
+				none : '暂无数据'
+			}
+		    ,page: true //开启分页
+		    ,cols: [[ //表头
+		      {field: 'askIdent', title: '鉴定码'}
+		      ,{field: 'createTime', title: '请求时间',sort:true
+					,templet:"<div>{{layui.util.toDateString(d.createTime, 'yyyy-MM-dd HH:mm:ss')}}</div>"}
+		      ,{field: 'waresName', title: '商品名' }
+		      ,{field: 'waresRemark', title: '留言'} 
+		      ,{
+				fixed : 'right',
+				title : '操作',
+				toolbar : '#barDemo',
+			}]],
+		    parseData : function(res) { //res 即为原始返回的数据
+				console.log(res)
+				return {
+					"code" : res.status, //解析接口状态
+					"msg" : res.message, //解析提示文本
+					"count" : res.total, //解析数据长度
+					"data" : res.data
+				//解析数据列表
+				};
+			}
+		  });
+		  table.on('tool(ask_tb_filter)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+	    	  var data = obj.data; //获得当前行数据
+	    	  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+	    	  var tr = obj.tr; //获得当前行 tr 的 DOM 对象（如果有的话）
+	    	 
+	    	  if(layEvent === 'detail'){ //查看
+					  $("#imgOneModal").attr("src",data.waresImgOne)  	    
+					  $("#imgTwoModal").attr("src",data.waresImgTwo)  	    
+					  $("#imgThreeModal").attr("src",data.waresImgThree)  	    
+	    		  var index = layer.open({
+						title : '商品图片',
+						fix : true,
+						resize : false,
+						move : false,
+						zIndex : 500,
+						area: ['800px','450px'],
+						shadeClose : true,
+						shade : 0.4,
+						type : 1,
+						content : $('#lookWareImgModal')
+					});
+	    	    
+	    	  } else if(layEvent === 'really'){ //真
+	    	    layer.confirm('确认鉴定为真吗？', function(index){
+	    	    	$.ajax({
+	    	    		url:"${PATH}/askAppraisal/apprWareReally/"+data.askId+"/"+data.apprId+"/"+data.custId,
+	    	    		method:"get",
+	    	    		beforeSend:function(){
+	    	    			var loading = layer.load(1,{time: 5000});
+	    	    		},
+	    	    		success:function(res){
+	    	    			if(res.code==100){
+	    	    				layer.msg(res.extend.msg,function(){
+	    	    					renderTb();
+	    	    				})
+	    	    			}else{
+	    	    				layer.msg(res.extend.msg)
+	    	    			}
+	    	    		},error:function(){
+	    	    			layer.msg("系统错误！");
+	    	    		},
+	    	    		
+	    	    	});
+	    	    });
+	    	  } else if(layEvent === 'fake'){ //编辑
+	    		  layer.confirm('确认鉴定为假吗？', function(index){
+		    	    	$.ajax({
+		    	    		url:"${PATH}/askAppraisal/apprWareFake/"+data.askId+"/"+data.apprId+"/"+data.custId,
+		    	    		method:"get",
+		    	    		success:function(res){
+		    	    			if(res.code==100){
+		    	    				layer.msg(res.extend.msg,function(){
+		    	    					renderTb();
+		    	    				})
+		    	    			}else{
+		    	    				layer.msg(res.extend.msg)
+		    	    			}
+		    	    		},error:function(){
+		    	    			layer.msg("系统错误！");
+		    	    		}
+		    	    	});
+		    	    });
+	    	  } else if(layEvent === 'LAYTABLE_TIPS'){
+	    	    layer.alert('Hi，头部工具栏扩展的右侧图标。');
+	    	  }
+	    	});
+		});
+	layui.use('carousel', function(){
+		  var carousel = layui.carousel;
+		  //建造实例
+		  carousel.render({
+		    elem: '#test1'
+		    ,width: '100%' //设置容器宽度
+		    ,arrow: 'always' //始终显示箭头
+		    ,autoplay:false
+		    ,trigger:'click'
+		  });
+		});
+}
+
+</script>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
+  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="really">真品</a>
+  <a class="layui-btn layui-btn-xs  layui-btn-danger" lay-event="fake">假货</a>
 </script>
 </html>

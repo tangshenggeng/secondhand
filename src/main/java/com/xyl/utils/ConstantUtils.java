@@ -3,7 +3,7 @@ package com.xyl.utils;
 public class ConstantUtils {
 
 	/**
-	 * 客户头像保存的路径
+	 * 头像保存的路径
 	 */
 	public static final String HEADER_IMG = "D:\\graduation\\secondhand\\header";
 	/**
@@ -19,6 +19,11 @@ public class ConstantUtils {
 	 * 求鉴定图片保存
 	 */
 	public static final String ASK_WARE_IMG = "D:\\graduation\\secondhand\\ask";
+	
+	/**
+	 * 发布商品图片保存
+	 */
+	public static final String CUST_WARE_IMG = "D:\\graduation\\secondhand\\wares";
 	
 	
 }

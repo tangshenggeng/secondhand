@@ -50,7 +50,7 @@
 					      		${sessionScope.nick}<span style="color:orange">&nbsp;&nbsp;${sessionScope.state}</span>
 					      	</div>
 					      <div class="list">
-				              <a class="list-entry" href="${PATH}/cust/getCustInfo/${sessionScope.id}/${sessionScope.name}">
+				              <a class="list-entry" href="${PATH}/cust/toReleaseWarePage/${sessionScope.id}/${sessionScope.name}">
 				                	发布商品
 				              </a>
 				              <a class="list-entry" href="${PATH}/cust/getCustInfo/${sessionScope.id}/${sessionScope.name}">
@@ -95,13 +95,13 @@
 	         <li class="dropdown">
 	           <a href="#" class="dropdown-toggle" data-toggle="dropdown">商品分类</a>
 	           <ul class="dropdown-menu" id="showSorts">
-	             <li v-for="item in sorts"><a :href="item.sortId" v-text = 'item.sortName'></a></li>
+	             <li v-for="item in sorts"><a :href="'${PATH}/releaseWaresByCust/getWaresById'+item.sortId" v-text = 'item.sortName'></a></li>
 	           </ul>
 	         </li>
 	         <li class="dropdown">
 	           <a href="#" class="dropdown-toggle" data-toggle="dropdown">品牌分类</a>
 	           <ul class="dropdown-menu" id="showBrands">
-	             <li v-for="item in brands"><a :href="item.brandId" v-text = 'item.brandName'></a></li>
+	             <li v-for="item in brands"><a :href="'${PATH}/releaseWaresByCust/'+item.brandId" v-text = 'item.brandName'></a></li>
 	           </ul>
 	         </li>
           <li class="dropdown megamenu-fw">

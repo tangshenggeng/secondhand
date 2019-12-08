@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyl.release.mapper.ReleaseWaresMapper">
+
+    <!-- 开启二级缓存 -->
+    <!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/> -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xyl.release.beans.ReleaseWares">
+        <id column="ware_id" property="wareId" />
+        <result column="ware_ident" property="wareIdent" />
+        <result column="ware_name" property="wareName" />
+        <result column="ware_remark" property="wareRemark" />
+        <result column="is_appr" property="isAppr" />
+        <result column="appr_ident" property="apprIdent" />
+        <result column="ware_price" property="warePrice" />
+        <result column="create_time" property="createTime" />
+        <result column="img_one" property="imgOne" />
+        <result column="img_two" property="imgTwo" />
+        <result column="img_three" property="imgThree" />
+        <result column="is_show" property="isShow" />
+        <result column="cust_id" property="custId" />
+        <result column="cust_nick" property="custNick" />
+        <result column="is_del" property="isDel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        ware_id, ware_ident, ware_name, ware_remark, is_appr, appr_ident, ware_price, create_time, img_one, img_two, img_three, is_show, cust_id, cust_nick, is_del
+    </sql>
+
+</mapper>
