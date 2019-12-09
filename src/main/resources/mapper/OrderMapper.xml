@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xyl.order.mapper.OrderMapper">
+
+    <!-- 开启二级缓存 -->
+    <!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/> -->
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xyl.order.beans.Order">
+        <id column="order_id" property="orderId" />
+        <result column="order_number" property="orderNumber" />
+        <result column="price" property="price" />
+        <result column="originator_id" property="originatorId" />
+        <result column="originator_nick" property="originatorNick" />
+        <result column="consignee_name" property="consigneeName" />
+        <result column="consignee_addr" property="consigneeAddr" />
+        <result column="consignee_remark" property="consigneeRemark" />
+        <result column="appr_ident" property="apprIdent" />
+        <result column="express_com" property="expressCom" />
+        <result column="express_number" property="expressNumber" />
+        <result column="ware_name" property="wareName" />
+        <result column="ware_img" property="wareImg" />
+        <result column="owner_id" property="ownerId" />
+        <result column="owner_nick" property="ownerNick" />
+        <result column="order_state" property="orderState" />
+        <result column="create_time" property="createTime" />
+        <result column="confirm_time" property="confirmTime" />
+        <result column="is_del" property="isDel" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        order_id, order_number, price, originator_id, originator_nick, consignee_name, consignee_addr, consignee_remark, appr_ident, express_com, express_number, ware_name, ware_img, owner_id, owner_nick, order_state, create_time, confirm_time, is_del
+    </sql>
+
+</mapper>

@@ -8,6 +8,9 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +55,37 @@ public class ReleaseWaresController {
 	
 	@Autowired
 	private AskAppraisalService askSer;			//鉴定码查询
+	
+	/**
+	 * 展示商品
+	 * @return 
+	 * */
+	@RequestMapping(value="/getWaresByShow",method=RequestMethod.POST)
+	@ResponseBody
+	public List<ReleaseWares> getWaresByShow(@RequestBody Map map) {
+		String kwFlag = (String) map.get("kwFlag");
+		String keyWord = (String) map.get("keyWord");
+		String kwId = (String) map.get("kwId");
+		Integer id = Integer.parseInt(kwId);
+		
+		EntityWrapper<ReleaseWares> wrapper = new EntityWrapper<>();
+		ArrayList<String> idents = new ArrayList<String>();
+		if(kwFlag.equals("brand")) {
+			List<WareBrand> brands = brandSer.selectList(new EntityWrapper<WareBrand>().eq("brand_id", id));
+			brands.forEach(brand -> idents.add(brand.getWareIdent()));
+		}else if(kwFlag.equals("sort")){
+			List<WareSort> sorts = sortSer.selectList(new EntityWrapper<WareSort>().eq("sort_id", id));
+			sorts.forEach(sort -> idents.add(sort.getWareIdent()));
+		}else {
+			return null;
+		}
+		if(!keyWord.equals("")) {
+			wrapper.like("ware_name", keyWord).or().like("ware_remark", keyWord).andNew();
+		}
+		wrapper.in("ware_ident", idents);
+		List<ReleaseWares> list = releSer.selectList(wrapper);
+		return list;
+	}
 	
 	/**
 	 * 首页展示8个通过鉴定的商品
@@ -140,6 +174,32 @@ public class ReleaseWaresController {
 		resultMap.put("data", url);
 		return resultMap;
 	}
+	//=============页面跳转=========================
+	//通过分类id查询到所有的商品
+	@RequestMapping(value="/getWaresBySortId/{sortId}",method=RequestMethod.GET)
+	public String getWaresBySortId(@PathVariable("sortId")Integer sortId,Model model) {
+		int count = sortSer.selectCount(new EntityWrapper<WareSort>().eq("sort_id", sortId));
+		if(count!=0) {
+			model.addAttribute("id", sortId);
+			model.addAttribute("flag", "sort");
+			return "forward:/pages/wares/show-wares.jsp";
+		}
+		model.addAttribute("error", "未查询到该分类！");
+		return "forward:/pages/wares/show-wares.jsp";
+	}
+	//通过品牌id查询到所有的商品
+	@RequestMapping(value="/getWaresByBrandId/{brandId}",method=RequestMethod.GET)
+	public String getWaresByBrandId(@PathVariable("brandId")Integer brandId,Model model) {
+		int count = brandSer.selectCount(new EntityWrapper<WareBrand>().eq("brand_id", brandId));
+		if(count!=0) {
+			model.addAttribute("id", brandId);
+			model.addAttribute("flag", "brand");
+			return "forward:/pages/wares/show-wares.jsp";
+		}
+		model.addAttribute("error", "未查询到该分类！");
+		return "forward:/pages/wares/show-wares.jsp";
+	}
+	
 	
 }
 

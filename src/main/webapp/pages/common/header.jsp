@@ -17,32 +17,6 @@
 				<c:choose>
 					<c:when test="${sessionScope.flag == 1}">
 						<ul class="cols selection">
-							<%-- <li>
-					          <div class="emp_entry">
-					            <div class="emp_title">昵称</div>
-					            <div class="list">
-					              <a class="list-entry" href="javascript:void(0)">
-					                <img src="${PATH}/pages/static/images/us.png" alt="us">个人资料
-					              </a>
-					              <a class="list-entry" href="javascript:void(0)">
-					                <img src="${PATH}/pages/static/images/uk.png" alt="uk"> United Kingdom
-					              </a>
-					              <a class="list-entry" href="javascript:void(0)">
-					                <img src="${PATH}/pages/static/images/france.png" alt="France"> France
-					              </a>
-					              <a class="list-entry" href="javascript:void(0)">
-					                <img src="${PATH}/pages/static/images/australia.png" alt="Australia"> Australia
-					              </a>
-					              <a class="list-entry" href="javascript:void(0)">
-					                <img src="${PATH}/pages/static/images/italia.png" alt="Italia"> Italia
-					              </a>
-					              <a class="list-entry" href="javascript:void(0)">
-					                <img src="${PATH}/pages/static/images/duc.png" alt="Deutschland"> Deutschland
-					              </a>
-					            </div>
-					          </div>
-				        </li> --%>
-
 					  <li>
 					  	<div class="emp_entry">
 					      <div class="emp_title">
@@ -95,13 +69,13 @@
 	         <li class="dropdown">
 	           <a href="#" class="dropdown-toggle" data-toggle="dropdown">商品分类</a>
 	           <ul class="dropdown-menu" id="showSorts">
-	             <li v-for="item in sorts"><a :href="'${PATH}/releaseWaresByCust/getWaresById'+item.sortId" v-text = 'item.sortName'></a></li>
+	             <li v-for="item in sorts"><a :href="'${PATH}/releaseWares/getWaresBySortId/'+item.sortId" v-text = 'item.sortName'></a></li>
 	           </ul>
 	         </li>
 	         <li class="dropdown">
 	           <a href="#" class="dropdown-toggle" data-toggle="dropdown">品牌分类</a>
 	           <ul class="dropdown-menu" id="showBrands">
-	             <li v-for="item in brands"><a :href="'${PATH}/releaseWaresByCust/'+item.brandId" v-text = 'item.brandName'></a></li>
+	             <li v-for="item in brands"><a :href="'${PATH}/releaseWares/getWaresByBrandId/'+item.brandId" v-text = 'item.brandName'></a></li>
 	           </ul>
 	         </li>
           <li class="dropdown megamenu-fw">

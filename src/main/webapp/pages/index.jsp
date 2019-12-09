@@ -259,20 +259,21 @@
 							<div class="image">
 								<div class="fader">
 									<img :src="item.imgOne" alt="">
-									<img :src="item.imgTwo" alt="">
+									<p style="width: 100%;height: 439px;display: block;line-height: 439px;text-align: center;">商品介绍：{{ item.wareRemark}}</p>
 								</div>
 								
 							</div>
 							<div class="product_caption padding_b">
 							<div class="shop_buttons_my">
-									<a class="add_emp" href="#."> <i class="icon-icons102"></i>
+									<a class="add_emp" :href="'${PATH}/order/toOrderByCust/'+item.wareId"> <i class="icon-icons102"></i>
 										立即购买
 									</a>
 								</div>
 								<a href="#.">
-									<h6 class="bottom10" v-text="item.wareName"></h6>
+									<h6 class="bottom10">商品名称：{{item.wareName }}</h6>
 								</a>
-								<p class="p-price" v-text="item.warePrice"></p>
+								<p class="p-price">价格：{{ item.warePrice}}</p>
+								<p class="p-price" style="color: orange">鉴定码：{{ item.apprIdent}}</p>
 							</div>
 						</div>
 						</div>
@@ -292,20 +293,21 @@
 							<div class="image">
 								<div class="fader">
 									<img :src="item.imgOne" alt="">
-									<img :src="item.imgTwo" alt="">
+									<p style="width: 100%;height: 439px;display: block;line-height: 439px;text-align: center;">商品介绍：{{ item.wareRemark}}</p>
 								</div>
 								
 							</div>
 							<div class="product_caption padding_b">
 							<div class="shop_buttons_my">
-									<a class="add_emp" href="#."> <i class="icon-icons102"></i>
+									<a class="add_emp" :href="'${PATH}/order/toOrderByCust/'+item.wareId"> <i class="icon-icons102"></i>
 										立即购买
 									</a>
 								</div>
 								<a href="#.">
-									<h6 class="bottom10" v-text="item.wareName"></h6>
+									<h6 class="bottom10">商品名称：{{item.wareName }}</h6>
 								</a>
-								<p class="p-price" v-text="item.warePrice"></p>
+								<p class="p-price">价格：{{ item.warePrice}}</p>
+								<p class="p-price" style="color: orange">鉴定码：{{ item.apprIdent}}</p>
 							</div>
 						</div>
 					</div>
