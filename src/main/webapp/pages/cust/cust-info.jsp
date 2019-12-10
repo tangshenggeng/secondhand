@@ -71,13 +71,13 @@
    <!--Shopping Cart ends-->
 
 <!--Search-->
-<div id="search">
+<!-- <div id="search">
   <button type="button" class="close">×</button>
   <form class="centered clearfix">
     <input type="search" value="" placeholder="Search here...."  required/>
     <button type="submit" class="btn-search"><i class="icon-icons185"></i></button>
   </form>
-</div>
+</div> -->
 <div id="recharge">
   <button type="button" class="close">×</button>
   <form class="centered clearfix">

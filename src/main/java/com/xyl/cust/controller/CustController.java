@@ -669,5 +669,20 @@ public class CustController {
 	public String toAddCustPage() {
 		return "/custs/add-cust";
 	}
+	//查看我的所有商品
+	@RequestMapping(value="/toMyWaresPage/{id}/{name}",method=RequestMethod.GET)
+	public String toMyWaresPage(@PathVariable("id")Integer id
+			,@PathVariable("name")String name,Model model) {
+		EntityWrapper<Cust> wrapper = new EntityWrapper<>();
+		wrapper.eq("cust_id", id).eq("cust_name", name);
+		Cust cust = custSer.selectOne(wrapper);
+		if(cust == null) {
+			model.addAttribute("findInfoError", "未查询到客户信息！");
+			return "forward:/pages/cust/my-wares.jsp";
+		}
+		model.addAttribute("custId", cust.getCustId());
+		return "forward:/pages/cust/my-wares.jsp";
+	}
+	
 }
 

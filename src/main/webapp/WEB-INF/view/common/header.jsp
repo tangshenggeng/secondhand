@@ -79,7 +79,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="javascript:;" data-toggle="collapse" data-target="#appr"><i class="glyphicon glyphicon-user"></i> 技师管理<i class="fa fa-fw fa-caret-down"></i></a>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#appr"><i class="glyphicon glyphicon-user"></i> 鉴定师管理<i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="appr" class="collapse">
                             <li>
                                 <a href="${PATH}/appraisal/toListMemberPage">待审核鉴定师</a>
@@ -129,8 +129,41 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#release"><i class="glyphicon glyphicon-folder-open"></i> 商品管理<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="release" class="collapse">
+                            <li>
+                                <a href="${PATH}/releaseWares/toBeforeSalePage">待售商品</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/releaseWares/toAfterSalePage">已售商品</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/releaseWares/toAlreadyPage">已下架商品</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#order"><i class="glyphicon glyphicon-flash"></i> 订单管理<i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="order" class="collapse">
+                            <li>
+                                <a href="${PATH}/order/toBeforeFinallyPage">未完成订单</a>
+                            </li>
+                            <li>
+                                <a href="${PATH}/order/toFinallyPage">已完成订单</a>
+                            </li>
+                            
+                        </ul>
+                    </li>
                     
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </nav>
+        <script type="text/javascript">
+        	var admin = "${sessionScope.admin}"
+        	if(admin==""){
+        		alert("登录超时！请重新登录")
+        		window.location.href="${PATH}/admin/loginOut";
+        	}
+        </script>

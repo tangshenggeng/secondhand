@@ -82,10 +82,10 @@
 <%@ include file="/pages/common/header.jsp"%>
 <!--HEADER ENDS-->
 <!-- 搜索和购物车 -->
-<%@ include file="/pages/common/cart_and_search.jsp"%>
+<%-- <%@ include file="/pages/common/cart_and_search.jsp"%> --%>
 
 <!--Page Load Popup-->
-<div id="pageload-modal" class="modal fade">
+<!-- <div id="pageload-modal" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -111,7 +111,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!--Page Load Popup-->
 
 <main>

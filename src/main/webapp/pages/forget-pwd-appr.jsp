@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>登录/注册</title>
+<title>忘记密码</title>
 
 <!-- Bootstrap -->
 <link href="${PATH}/pages/static/css/bootstrap.min.css" rel="stylesheet">
@@ -70,22 +70,19 @@
    <!--Shopping Cart ends-->
 
 <!--Search-->
-<div id="search">
+<!-- <div id="search">
   <button type="button" class="close">×</button>
   <form class="centered clearfix">
     <input type="search" value="" placeholder="Search here...."  required/>
     <button type="submit" class="btn-search"><i class="icon-icons185"></i></button>
   </form>
-</div>
+</div> -->
  <!--Search Ends-->
 <!-- Login starts -->
 <main>
 <div class="rev_slider">
   <div class="row">
-    <div class="col-sm-3">
-    
-    </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6 layui-col-md-offset3">
       <div class="contentform">
     <ol class="breadcrumb_simple text-center heading_space">
       <li><a href="#" style="color:red;" >
@@ -94,53 +91,40 @@
     </ol>
     <div class="logintabbed bottom30">
       <ul class="nav nav-tabs nav-justified heading_space" role="tablist">
-     	 <span style="color:red;font-size: 20px">
-     	 	  ${nameError}
-	      </span>
-        <li role="presentation" class="active"><a href="#registered" aria-controls="registered" role="tab" data-toggle="tab">鉴定师登录</a></li>
+     	 
+        <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">忘记密码</a></li>
       </ul>
-      <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade in active" id="registered">
-          <form class="callus" action="${PATH}/appraisal/loginInto" method="post">
+        <div role="tabpanel" class="tab-pane fade in active" id="profile">
+          <form class="callus">
             <div class="form-group">
-              <label>登录名</label>
-              <input type="text" class="form-control" name="formCode" placeholder="邮箱或注册登录名">
+              <label>邮箱</label>
+              <input type="email" id="changeEmailInput" class="form-control" placeholder="请输入邮箱">
             </div>
             <div class="form-group">
-              <label>密码</label>
-              <input type="password" name="apprPwd" class="form-control" placeholder="请输入密码">
+              <label>验证码</label>
+              <input type="text" class="form-control" id="changeCode" placeholder="请输入邮箱验证码"><br>
+              <input type="button" class="layui-btn  layui-btn-primary" id="codeBtn" value="点击获取验证码" onclick="sendemail()"/>
             </div>
-            <div class="row">
-              <div class="col-sm-6">
-                <div class="form-group">
-                  <input type="checkbox" name="check-box">
-                  <span>记住我</span>
-                </div>
-              </div>
-              <div class="col-sm-6 text-right">
-                <a href="${PATH}/pages/forget-pwd-appr.jsp" class="lost-pass">忘记密码?</a>
-              </div>
+            <div class="form-group">
+              <label>请输入密码</label>
+              <input type="password" name="formPwd1" id="change-pwd1" class="form-control" placeholder="请输入密码">
+            </div>
+            <div class="form-group">
+              <label>请再次输入密码</label>
+              <input type="password" name="formPwd2" id="change-pwd2" class="form-control" placeholder="请再次输入密码">
             </div>
             <div class="form-group">
               <label>验证</label>
-              <div id="technVerify"></div>
+              <div id="forgetVerify"></div>
             </div>
-            <button type="submit" id="loginBtn" class="btn btn_dark btn_full" disabled="disabled">登录</button>
+            <button type="button" id="custChangePwdBtn" disabled="disabled" class="btn btn_dark btn_full">修改</button>
           </form>
         </div>
       </div>
     </div>
-    <div class="hr_head"><span>OR</span></div>
-    <div class="share_with text-center top30">
-      <h5 class="bottom20">快捷登录</h5>
-      <a href="#." class="facebook"><i class="icon-facebook-1"></i> Facebook </a>
-      <a href="#." class="twitter"><i class="icon-twitter-1"></i> twitter</a>
-      <a href="#." class="google"><i class="icon-google4"></i> google +</a>
-    </div>
   </div>
     </div>
   </div>
-</div>
 </main>
 <!-- Login end -->
 
@@ -175,12 +159,65 @@
 <script src="${PATH}/static/verify/verify.min.js"></script>
 </body>
 <script type="text/javascript">
+$("#custChangePwdBtn").click(function() {
+	layui.use('layer', function() {
+		var layer = layui.layer;
+		var changeEmail = $("#changeEmailInput").val();
+		var reg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+		if (!reg.test(changeEmail)) {
+			layer.msg("请输入正确的邮箱！", {
+				icon : 5
+			});
+			return;
+		}
+		var changeCode = $("#changeCode").val();
+		var changePwd1 = $("#change-pwd1").val();
+		var changePwd2 = $("#change-pwd2").val();
+		if (changePwd1 != changePwd2) {
+			layer.msg("两次输入的密码不一致！", {
+				icon : 5
+			});
+			return;
+		}
+		$.ajax({
+			url : "${PATH}/appraisal/forgetPwd",
+			method : "post",
+			contentType : "application/json",//必须指定，否则会报415错误
+			dataType : 'json',
+			data : JSON.stringify({
+				email : changeEmail,
+				code : changeCode,
+				changePwd : changePwd2
+			}),
+			success : function(res) {
+				if (res.code == 100) {
+					layer.msg(res.extend.msg, {
+						icon : 6
+					}, function() {
+						window.location.href="${PATH}/pages/appraisal/login.jsp";
+					});
+				} else {
+					layer.msg(res.extend.msg, {
+						icon : 5
+					});
+				}
+			},
+			error : function() {
+				layer.msg("系统错误！", {
+					icon : 5
+				});
+			}
+		});
+
+	})
+});
+//验证码
 var countdown=60; 
 function sendemail(){
 	layui.use('layer', function(){
 	  	var layer = layui.layer;
 	  	var obj = $("#codeBtn");
-	    var email = $("#regiterEmailInput").val();
+	    var email = $("#changeEmailInput").val();
 	    var reg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
 	    if(!reg.test(email)){
 	    	layer.msg("请输入正确的邮箱！",{icon:5});
@@ -219,8 +256,7 @@ setTimeout(function() {
     settime(obj) }
     ,1000) 
 }
-//验证
-$('#technVerify').slideVerify({
+$('#forgetVerify').slideVerify({
 	type : 1,		//类型
 	vOffset : 5,	//误差量，根据需求自行调整
 	barSize : {
@@ -230,7 +266,7 @@ $('#technVerify').slideVerify({
 	ready : function() {
 	},
 	success : function() {
-		$("#loginBtn").removeAttr("disabled");
+		$("#custChangePwdBtn").removeAttr("disabled");
 	},
 	error : function() {
 	}

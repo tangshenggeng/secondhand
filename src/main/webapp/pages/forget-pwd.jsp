@@ -26,7 +26,7 @@
 <link rel="icon" href="${PATH}/pages/static/images/favicon.png">
 <link href="${PATH}/static/layui/css/layui.css" rel='stylesheet'
 	type='text/css' />
-
+<link href="${PATH}/static/verify/verify.css" rel="stylesheet">
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -70,13 +70,13 @@
    <!--Shopping Cart ends-->
 
 <!--Search-->
-<div id="search">
+<!-- <div id="search">
   <button type="button" class="close">×</button>
   <form class="centered clearfix">
     <input type="search" value="" placeholder="Search here...."  required/>
     <button type="submit" class="btn-search"><i class="icon-icons185"></i></button>
   </form>
-</div>
+</div> -->
  <!--Search Ends-->
 <!-- Login starts -->
 <main>
@@ -113,7 +113,11 @@
               <label>请再次输入密码</label>
               <input type="password" name="formPwd2" id="change-pwd2" class="form-control" placeholder="请再次输入密码">
             </div>
-            <button type="button" id="custChangePwdBtn" class="btn btn_dark btn_full">注册</button>
+            <div class="form-group">
+              <label>验证</label>
+              <div id="forgetVerify"></div>
+            </div>
+            <button type="button" id="custChangePwdBtn" disabled="disabled" class="btn btn_dark btn_full">修改</button>
           </form>
         </div>
       </div>
@@ -152,6 +156,7 @@
 <script src="${PATH}/pages/static/js/revolution.extension.video.min.js"></script>
 <script src="${PATH}/pages/static/js/functions.js"></script>
 <script src="${PATH}/static/layui/layui.all.js"></script>
+<script src="${PATH}/static/verify/verify.min.js"></script>
 </body>
 <script type="text/javascript">
 $("#custChangePwdBtn").click(function() {
@@ -251,5 +256,20 @@ setTimeout(function() {
     settime(obj) }
     ,1000) 
 }
+$('#forgetVerify').slideVerify({
+	type : 1,		//类型
+	vOffset : 5,	//误差量，根据需求自行调整
+	barSize : {
+		width : '80%',
+		height : '40px',
+	},
+	ready : function() {
+	},
+	success : function() {
+		$("#custChangePwdBtn").removeAttr("disabled");
+	},
+	error : function() {
+	}
+});
 </script>
 </html>

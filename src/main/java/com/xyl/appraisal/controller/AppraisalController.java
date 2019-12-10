@@ -82,6 +82,38 @@ public class AppraisalController {
 	private FlowApprService flowSer;		//积分流动
 	
 	/**
+	 * 忘记密码
+	 * */
+	@RequestMapping(value="/forgetPwd",method=RequestMethod.POST)
+	@ResponseBody
+	public Msg forgetPwd(@RequestBody Map o) {
+		String email = (String) o.get("email");
+		String code = (String) o.get("code");
+		String pwd = (String) o.get("changePwd");
+		EntityWrapper<Appraisal> wrapper = new EntityWrapper<>();
+		wrapper.eq("appr_email", email);
+		int i = apprSer.selectCount(wrapper);
+		if(i==0) {
+			return Msg.fail().add("msg","你还未注册！");
+		}
+		EntityWrapper<RegiterCode> codeWra = new EntityWrapper<>();
+		codeWra.eq("regiter_email", email).eq("code", code);
+		int count = regiterCodeSer.selectCount(codeWra);
+		if(count == 0) {
+			return Msg.fail().add("msg","验证码错误！");
+		}
+		regiterCodeSer.delete(codeWra);
+		Appraisal entity = new Appraisal();
+		entity.setApprPwd(pwd);
+		boolean b = apprSer.update(entity, wrapper);
+		if(b) {
+			return Msg.success().add("msg","修改成功！请登录！");
+		}
+		return Msg.fail().add("msg","修改失败！");
+	}
+	
+	
+	/**
 	 * 前台展示普通鉴定师
 	 * @return 
 	 * */

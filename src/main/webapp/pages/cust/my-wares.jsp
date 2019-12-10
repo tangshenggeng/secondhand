@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>商品展示</title>
+<title>我的商品</title>
 
 <!-- Bootstrap -->
 <link href="${PATH}/pages/static/css/bootstrap.min.css" rel="stylesheet">
@@ -119,9 +119,9 @@
 							</div>
 							<div class="product_caption padding_b">
 							<div class="shop_buttons_my">
-									<a class="add_emp" :href="'${PATH}/order/toOrderByCust/'+item.wareId"> <i class="icon-icons102"></i>
-										立即购买
-									</a>
+									<button v-on:click="stopShowWare(item)" class="btn btn_default btn_dark button_moema icon-drop" > 
+										下架
+									</button>
 								</div>
 								<a href="#.">
 									<h6 class="bottom10">商品名称：{{item.wareName }}</h6>
@@ -221,17 +221,14 @@
 		el:"#waresList",
 		data:{
 			wares:[],
-			kwId:"${id}",
-			kwFlag:"${flag}",
-			keyWord:""
+			keyWord:"",
+			custId:"${custId}"
 		},created:function(){
-			this.$http.post("${PATH}/releaseWares/getWaresByShow",{
-				kwId:this.kwId,
-				kwFlag:this.kwFlag,
-				keyWord:this.keyWord
+			this.$http.post("${PATH}/releaseWares/getMyWares",{
+				keyWord:this.keyWord,
+				custId:this.custId
 				}).then(function(response){
 				//成功
-				console.log(response.body)
 				this.wares=response.body;
 				console.log(this.wares)
 			},function(response) {
@@ -240,18 +237,38 @@
 			});
 		},methods:{
 			fingByKeyWords:function(event){
-				this.$http.post("${PATH}/releaseWares/getWaresByShow",{
-					kwId:this.kwId,
-					kwFlag:this.kwFlag,
-					keyWord:this.keyWord
+				this.$http.post("${PATH}/releaseWares/getMyWares",{
+					keyWord:this.keyWord,
+					custId:this.custId
 					}).then(function(response){
 					//成功
-					console.log(response.body)
 					this.wares=response.body;
 				},function(response) {
 					//错误
 					console.log("系统错误！")
 				});
+			},
+			stopShowWare:function(item){
+				var wareId = item.wareId
+				var ident = item.wareIdent
+				layer.confirm('确认下架该商品吗?', function(index){
+					$.ajax({
+						url:"${PATH}/releaseWares/stopShowWare/"+wareId+"/"+ident,
+						method:"get",
+						success:function(res){
+							if(res.code==100){
+								layer.msg(res.extend.msg,{icon:6},function(){
+									location.reload(true)  
+								})
+							}else{
+								layer.msg(res.extend.msg,{icon:5})
+							}
+						},error:function(){
+							layer.msg("系统错误！")
+						}
+					})
+					layer.close(index);
+				})
 			}
 		}
 		

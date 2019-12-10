@@ -26,7 +26,7 @@
 <link rel="icon" href="${PATH}/pages/static/images/favicon.png">
 <link href="${PATH}/static/layui/css/layui.css" rel='stylesheet'
 	type='text/css' />
-
+<link href="${PATH}/static/verify/verify.css" rel="stylesheet">
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -178,7 +178,11 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" id="regiterApprBtn" class="btn btn_dark btn_full">注册</button>
+            <div class="form-group">
+              <label>验证</label>
+              <div id="technVerify"></div>
+            </div>
+            <button type="submit" disabled="disabled" id="regiterApprBtn" class="btn btn_dark btn_full">注册</button>
           </form>
         </div>
       </div>
@@ -225,6 +229,7 @@
 <script src="${PATH}/pages/static/js/revolution.extension.video.min.js"></script>
 <script src="${PATH}/pages/static/js/functions.js"></script>
 <script src="${PATH}/static/layui/layui.all.js"></script>
+<script src="${PATH}/static/verify/verify.min.js"></script>
 </body>
 <script type="text/javascript">
 var showDiv = new Vue({
@@ -338,24 +343,21 @@ layui.use(['upload','layer','form'], function(){
 	    }
 	  });
 })
-
-/* $("#regiterApprBtn").click(function(){
-	var data = $("#regiterApprForm").serialize();
-	layui.use('layer', function(){
-		 var layer = layui.layer
-		 $.ajax({
-			 url:"${PATH}/appraisal/regiterAppr",
-			 method:"POST",
-			 contentType: "application/json",//必须指定，否则会报415错误
-		     dataType : 'json',
-			 data:data,
-			 success:function(res){
-				 console.log(res)
-			 },error:function(){
-				 
-			 }
-		 });
-	})
-}); */
+//验证
+$('#technVerify').slideVerify({
+	type : 1,		//类型
+	vOffset : 5,	//误差量，根据需求自行调整
+	barSize : {
+		width : '80%',
+		height : '40px',
+	},
+	ready : function() {
+	},
+	success : function() {
+		$("#regiterApprBtn").removeAttr("disabled");
+	},
+	error : function() {
+	}
+});
 </script>
 </html>

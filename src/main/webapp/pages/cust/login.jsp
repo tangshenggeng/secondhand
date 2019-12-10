@@ -26,7 +26,7 @@
 <link rel="icon" href="${PATH}/pages/static/images/favicon.png">
 <link href="${PATH}/static/layui/css/layui.css" rel='stylesheet'
 	type='text/css' />
-
+<link href="${PATH}/static/verify/verify.css" rel="stylesheet">
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -34,6 +34,7 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
+
 <body class="boxed">
 
 <!--Pre LOADER-->
@@ -70,13 +71,13 @@
    <!--Shopping Cart ends-->
 
 <!--Search-->
-<div id="search">
+<!-- <div id="search">
   <button type="button" class="close">×</button>
   <form class="centered clearfix">
     <input type="search" value="" placeholder="Search here...."  required/>
     <button type="submit" class="btn-search"><i class="icon-icons185"></i></button>
   </form>
-</div>
+</div> -->
  <!--Search Ends-->
 <!-- Login starts -->
 <main>
@@ -125,7 +126,11 @@
                 <a href="${PATH}/pages/forget-pwd.jsp" class="lost-pass">忘记密码?</a>
               </div>
             </div>
-            <button type="submit" class="btn btn_dark btn_full">登录</button>
+            <div class="form-group">
+              <label>验证</label>
+              <div id="custLoginVerify"></div>
+            </div>
+            <button type="submit" disabled="disabled" id="loginBtn" class="btn btn_dark btn_full">登录</button>
           </form>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="profile">
@@ -156,7 +161,11 @@
               <label>请再次输入密码</label>
               <input type="password" name="formPwd2" class="form-control" placeholder="请再次输入密码">
             </div>
-            <button type="submit" class="btn btn_dark btn_full">注册</button>
+            <div class="form-group" style="width: 500px">
+              <label>验证</label>
+              <div id="custRegiterVerify"></div>
+            </div>
+            <button type="submit" disabled="disabled" id="custRegiterBtn" class="btn btn_dark btn_full">注册</button>
           </form>
         </div>
       </div>
@@ -203,6 +212,7 @@
 <script src="${PATH}/pages/static/js/revolution.extension.video.min.js"></script>
 <script src="${PATH}/pages/static/js/functions.js"></script>
 <script src="${PATH}/static/layui/layui.all.js"></script>
+<script src="${PATH}/static/verify/verify.min.js"></script>
 </body>
 <script type="text/javascript">
 var countdown=60; 
@@ -249,5 +259,36 @@ setTimeout(function() {
     settime(obj) }
     ,1000) 
 }
+//验证
+$('#custRegiterVerify').slideVerify({
+	type : 1,		//类型
+	vOffset : 5,	//误差量，根据需求自行调整
+	barSize : {
+		width : '80%',
+		height : '40px',
+	},
+	ready : function() {
+	},
+	success : function() {
+		$("#custRegiterBtn").removeAttr("disabled");
+	},
+	error : function() {
+	}
+});
+$('#custLoginVerify').slideVerify({
+	type : 1,		//类型
+	vOffset : 5,	//误差量，根据需求自行调整
+	barSize : {
+		width : '80%',
+		height : '40px',
+	},
+	ready : function() {
+	},
+	success : function() {
+		$("#loginBtn").removeAttr("disabled");
+	},
+	error : function() {
+	}
+});
 </script>
 </html>

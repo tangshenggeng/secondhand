@@ -24,8 +24,14 @@
 					      		${sessionScope.nick}<span style="color:orange">&nbsp;&nbsp;${sessionScope.state}</span>
 					      	</div>
 					      <div class="list">
+				              <a class="list-entry" href="${PATH}/order/toMyOrderPage/${sessionScope.id}/${sessionScope.name}">
+				                	我的订单
+				              </a>
 				              <a class="list-entry" href="${PATH}/cust/toReleaseWarePage/${sessionScope.id}/${sessionScope.name}">
 				                	发布商品
+				              </a>
+				              <a class="list-entry" href="${PATH}/cust/toMyWaresPage/${sessionScope.id}/${sessionScope.name}">
+				                	我的商品
 				              </a>
 				              <a class="list-entry" href="${PATH}/cust/getCustInfo/${sessionScope.id}/${sessionScope.name}">
 				                	个人中心
@@ -36,10 +42,10 @@
 					       </div>
 					    </div>
 					   </li>
-			          <li><a href="#."><i class="icon-heart3"></i></a></li>
-			          <li class="search_btn"><i class="icon-icons185"></i></li>
+			          <!-- <li><a href="#."><i class="icon-heart3"></i></a></li>
+			          <li class="search_btn"><i class="icon-icons185"></i></li> -->
 			          <!-- <li><a href="#."><i class="icon-icons9"></i></a></li> -->
-			          <li><a href="javascript:void(0)" class="hamburger is-closed" data-toggle="offcanvas"><i class="icon-icons102"></i></a>
+			          <!-- <li><a href="javascript:void(0)" class="hamburger is-closed" data-toggle="offcanvas"><i class="icon-icons102"></i></a> -->
 				      </li>
 				      </ul>
 					</c:when>

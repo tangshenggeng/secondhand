@@ -64,7 +64,7 @@
 <%@ include file="/pages/common/header.jsp"%>
 <!--HEADER ENDS-->
 <!-- 搜索和购物车 -->
-<%@ include file="/pages/common/cart_and_search.jsp"%>
+<%-- <%@ include file="/pages/common/cart_and_search.jsp"%> --%>
 
 
  <!--Search Ends-->

@@ -1,7 +1,11 @@
 package com.xyl.release.controller;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +31,7 @@ import com.xyl.release.beans.WareSort;
 import com.xyl.release.service.ReleaseWaresService;
 import com.xyl.release.service.WareBrandService;
 import com.xyl.release.service.WareSortService;
+import com.xyl.utils.AnalysisKeyWordsListUtils;
 import com.xyl.utils.ConstantUtils;
 import com.xyl.utils.Msg;
 import com.xyl.utils.UUIDUtil;
@@ -57,6 +62,158 @@ public class ReleaseWaresController {
 	private AskAppraisalService askSer;			//鉴定码查询
 	
 	/**
+	 * 下架商品
+	 * */
+	@RequestMapping(value="/stopShowWare/{wareId}/{wareIdent}",method=RequestMethod.GET)
+	@ResponseBody
+	public Msg stopSale(@PathVariable("wareId")Integer wareId,
+			@PathVariable("wareIdent")String wareIdent) {
+		ReleaseWares wares = releSer.selectOne(new EntityWrapper<ReleaseWares>().eq("ware_id", wareId).eq("ware_ident", wareIdent));
+		if(wares == null) {
+			return Msg.fail().add("msg", "未找到该商品！");
+		}
+		wares.setIsShow("下架");
+		boolean b = releSer.updateById(wares);
+		if(!b) {
+			return Msg.fail().add("msg","下架失败！");
+		}
+		return Msg.success().add("msg", "下架成功");
+	}
+	
+	/**
+	 * 批量删除
+	 * */
+	@RequestMapping(value="/delWaresByIds",method=RequestMethod.POST)
+	@ResponseBody
+	public Msg delWaresByIds(@RequestBody ArrayList<Integer> list) {
+		boolean b = releSer.deleteBatchIds(list);
+		if(!b) {
+			return Msg.fail().add("msg","删除失败！");
+		}
+		return Msg.success().add("msg", "删除成功");
+	}
+	/**
+	 * 找到所有待售的商品
+	 * @return 
+	 * @throws ParseException 
+	 * */
+	@RequestMapping(value="/getBeforeSaleList",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getBeforeSaleList(@RequestBody Map kwMap) throws ParseException {
+		int page = (int) kwMap.get("page");
+		int limit = (int) kwMap.get("limit");
+		ArrayList<Map> arrayList = new ArrayList<>();
+		arrayList = (ArrayList<Map>) kwMap.get("kwdata");
+		AnalysisKeyWordsListUtils utils = new AnalysisKeyWordsListUtils();
+		HashMap<String, Object> afterMap = utils.analysisKeyWordsList(arrayList);
+		String formCode = (String) afterMap.get("formCode");
+		String start_date = (String) afterMap.get("start_date");
+		String end_date = (String) afterMap.get("end_date");
+		EntityWrapper<ReleaseWares> wrapper = new EntityWrapper<>();
+		
+		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		if(!start_date.equals("") && !end_date.equals("")) {
+			Date startDate = format1.parse(start_date);
+			Date endDate = format1.parse(end_date);
+			wrapper.between("create_time", startDate, endDate).andNew();
+		}
+		if(!formCode.equals("")) {
+			wrapper.like("ware_ident", formCode)
+			.or().like("ware_name", formCode)
+			.or().like("ware_remark", formCode);
+		}
+		wrapper.eq("is_show", "展示");
+		Page<Map<String, Object>> mapsPage = releSer.selectMapsPage(new Page<>(page, limit), wrapper);
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status",0);
+		resultMap.put("message","所有待售商品");
+		resultMap.put("total",mapsPage.getTotal());
+		resultMap.put("data",mapsPage.getRecords());
+		return resultMap;
+		
+	}
+	/**
+	 * 找到所有待售的商品
+	 * @return 
+	 * @throws ParseException 
+	 * */
+	@RequestMapping(value="/getStopSaleList",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getStopSaleList(@RequestBody Map kwMap) throws ParseException {
+		int page = (int) kwMap.get("page");
+		int limit = (int) kwMap.get("limit");
+		ArrayList<Map> arrayList = new ArrayList<>();
+		arrayList = (ArrayList<Map>) kwMap.get("kwdata");
+		AnalysisKeyWordsListUtils utils = new AnalysisKeyWordsListUtils();
+		HashMap<String, Object> afterMap = utils.analysisKeyWordsList(arrayList);
+		String formCode = (String) afterMap.get("formCode");
+		String start_date = (String) afterMap.get("start_date");
+		String end_date = (String) afterMap.get("end_date");
+		EntityWrapper<ReleaseWares> wrapper = new EntityWrapper<>();
+		
+		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		if(!start_date.equals("") && !end_date.equals("")) {
+			Date startDate = format1.parse(start_date);
+			Date endDate = format1.parse(end_date);
+			wrapper.between("create_time", startDate, endDate).andNew();
+		}
+		if(!formCode.equals("")) {
+			wrapper.like("ware_ident", formCode)
+			.or().like("ware_name", formCode)
+			.or().like("ware_remark", formCode);
+		}
+		wrapper.eq("is_show", "下架");
+		Page<Map<String, Object>> mapsPage = releSer.selectMapsPage(new Page<>(page, limit), wrapper);
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status",0);
+		resultMap.put("message","所有下架商品");
+		resultMap.put("total",mapsPage.getTotal());
+		resultMap.put("data",mapsPage.getRecords());
+		return resultMap;
+		
+	}
+	/**
+	 * 找到所有待售的商品
+	 * @return 
+	 * @throws ParseException 
+	 * */
+	@RequestMapping(value="/getAfterSaleList",method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getAfterSaleList(@RequestBody Map kwMap) throws ParseException {
+		int page = (int) kwMap.get("page");
+		int limit = (int) kwMap.get("limit");
+		ArrayList<Map> arrayList = new ArrayList<>();
+		arrayList = (ArrayList<Map>) kwMap.get("kwdata");
+		AnalysisKeyWordsListUtils utils = new AnalysisKeyWordsListUtils();
+		HashMap<String, Object> afterMap = utils.analysisKeyWordsList(arrayList);
+		String formCode = (String) afterMap.get("formCode");
+		String start_date = (String) afterMap.get("start_date");
+		String end_date = (String) afterMap.get("end_date");
+		EntityWrapper<ReleaseWares> wrapper = new EntityWrapper<>();
+		
+		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+		if(!start_date.equals("") && !end_date.equals("")) {
+			Date startDate = format1.parse(start_date);
+			Date endDate = format1.parse(end_date);
+			wrapper.between("create_time", startDate, endDate).andNew();
+		}
+		if(!formCode.equals("")) {
+			wrapper.like("ware_ident", formCode)
+			.or().like("ware_name", formCode)
+			.or().like("ware_remark", formCode);
+		}
+		wrapper.eq("is_show", "隐藏");
+		Page<Map<String, Object>> mapsPage = releSer.selectMapsPage(new Page<>(page, limit), wrapper);
+		Map<String,Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("status",0);
+		resultMap.put("message","所有已售商品");
+		resultMap.put("total",mapsPage.getTotal());
+		resultMap.put("data",mapsPage.getRecords());
+		return resultMap;
+		
+	}
+	
+	/**
 	 * 展示商品
 	 * @return 
 	 * */
@@ -83,6 +240,25 @@ public class ReleaseWaresController {
 			wrapper.like("ware_name", keyWord).or().like("ware_remark", keyWord).andNew();
 		}
 		wrapper.in("ware_ident", idents);
+		List<ReleaseWares> list = releSer.selectList(wrapper);
+		return list;
+	}
+	/**
+	 * 得到我的所有展示商品
+	 * @return 
+	 * */
+	@RequestMapping(value="/getMyWares",method=RequestMethod.POST)
+	@ResponseBody
+	public List<ReleaseWares> getMyWares(@RequestBody Map map) {
+		String keyWord = (String) map.get("keyWord");
+		String custId = (String) map.get("custId");
+		Integer id = Integer.parseInt(custId);
+		
+		EntityWrapper<ReleaseWares> wrapper = new EntityWrapper<>();
+		if(!keyWord.equals("")) {
+			wrapper.like("ware_name", keyWord).or().like("ware_remark", keyWord).andNew();
+		}
+		wrapper.eq("cust_id", id).eq("is_show", "展示");
 		List<ReleaseWares> list = releSer.selectList(wrapper);
 		return list;
 	}
@@ -199,7 +375,21 @@ public class ReleaseWaresController {
 		model.addAttribute("error", "未查询到该分类！");
 		return "forward:/pages/wares/show-wares.jsp";
 	}
-	
+	//去往待售商品页面
+	@RequestMapping(value="/toBeforeSalePage",method=RequestMethod.GET)
+	public String toBeforeSalePage() {
+		return "/releases/before-sale";
+	}
+	//去往已售商品页面
+	@RequestMapping(value="/toAfterSalePage",method=RequestMethod.GET)
+	public String toAfterSalePage() {
+		return "/releases/after-sale";
+	}
+	//去往已售商品页面
+	@RequestMapping(value="/toAlreadyPage",method=RequestMethod.GET)
+	public String toAlreadyPage() {
+		return "/releases/stop-sale";
+	}
 	
 }
 
