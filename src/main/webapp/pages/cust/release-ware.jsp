@@ -135,7 +135,7 @@
 				</div> 
             </div>
             <div class="form-group">
-            	<h4 style="padding-bottom: 5px">鉴定专长：</h4>
+            	<h4 style="padding-bottom: 5px">商品分类：</h4>
 				<div class="row" id="showBrandAndSorts">
 					<div class="col-md-3 col-sm-6">
 						<div class="emp_cate equal_inner">
@@ -173,7 +173,7 @@
         </div>
       </div>
     </div>
-    <div class="hr_head"><span>OR</span></div>
+    <<!-- div class="hr_head"><span>OR</span></div> -->
     <div class="share_with text-center top30">
       <h5 class="bottom20">快捷登录</h5>
       <a href="#." class="facebook"><i class="icon-facebook-1"></i> Facebook </a>

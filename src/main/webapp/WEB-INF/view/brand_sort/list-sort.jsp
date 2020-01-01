@@ -85,7 +85,7 @@ input[type="number"] {
 						<button class="layui-btn layui-btn-danger" type="button" id="delByIds"><i class="layui-icon layui-icon-delete"> 删除</i></button>
 						<button class="layui-btn layui-btn-normal" type="button" id="showSortsBtn"><i class="glyphicon glyphicon-eye-open"> 展示</i></button>
 						<button class="layui-btn layui-btn-normal" type="button" id="hideSortsBtn"><i class="glyphicon glyphicon-eye-close"> 隐藏</i></button>
-						<button class="layui-btn" type="button" id="addSortBtn"><i class="glyphicon glyphicon-plus"> 隐藏</i></button>
+						<button class="layui-btn" type="button" id="addSortBtn"><i class="glyphicon glyphicon-plus"> 添加</i></button>
 						<table id="custListTb"
 							class="table table-responsive table-hover"
 							lay-filter="brandListTbFilter">

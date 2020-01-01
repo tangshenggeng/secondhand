@@ -130,7 +130,7 @@
         </div>
       </div>
     </div>
-    <div class="hr_head"><span>OR</span></div>
+    <!-- <div class="hr_head"><span>OR</span></div> -->
     <div class="share_with text-center top30">
       <h5 class="bottom20">快捷登录</h5>
       <a href="#." class="facebook"><i class="icon-facebook-1"></i> Facebook </a>

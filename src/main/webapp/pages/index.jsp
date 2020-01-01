@@ -256,13 +256,14 @@
 						<!-- 商品展示 -->
 						<div  id="waresAfterAppr">
 						<div class=" sale col-sm-3" v-for="item in afters" >
-							<div class="image">
-								<div class="fader">
-									<img :src="item.imgOne" alt="">
-									<p style="width: 100%;height: 439px;display: block;line-height: 439px;text-align: center;">商品介绍：{{ item.wareRemark}}</p>
+							<a :href="'${PATH}/releaseWares/getByWareId/'+item.wareId+'/'+item.wareIdent">
+								<div class="image">
+									<div class="fader" style="width: 341px;height: 434px">
+										<img :src="item.imgOne" alt="">
+										<img :src="item.imgTwo" alt="">
+									</div>
 								</div>
-								
-							</div>
+							</a>
 							<div class="product_caption padding_b">
 							<div class="shop_buttons_my">
 									<a class="add_emp" :href="'${PATH}/order/toOrderByCust/'+item.wareId"> <i class="icon-icons102"></i>
@@ -290,13 +291,15 @@
 						<div  id="WaresBeforeAppr" class="row">
 						
 						<div class=" sale col-sm-3" v-for="item in befores" >
+							<a :href="'${PATH}/releaseWares/getByWareId/'+item.wareId+'/'+item.wareIdent">
 							<div class="image">
-								<div class="fader">
+								<div class="fader" style="width: 341px;height: 434px">
 									<img :src="item.imgOne" alt="">
-									<p style="width: 100%;height: 439px;display: block;line-height: 439px;text-align: center;">商品介绍：{{ item.wareRemark}}</p>
+									<img :src="item.imgTwo" alt="">
 								</div>
 								
 							</div>
+							</a>
 							<div class="product_caption padding_b">
 							<div class="shop_buttons_my">
 									<a class="add_emp" :href="'${PATH}/order/toOrderByCust/'+item.wareId"> <i class="icon-icons102"></i>

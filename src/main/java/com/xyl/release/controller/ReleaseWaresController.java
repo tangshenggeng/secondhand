@@ -61,6 +61,13 @@ public class ReleaseWaresController {
 	@Autowired
 	private AskAppraisalService askSer;			//鉴定码查询
 	
+	@RequestMapping(value="/getWareInfo/{id}",method=RequestMethod.GET)
+	@ResponseBody
+	public ReleaseWares getWareInfo(@PathVariable("id")Integer id) {
+		ReleaseWares releaseWares = releSer.selectById(id);
+		return releaseWares;
+	}
+	
 	/**
 	 * 下架商品
 	 * */
@@ -239,7 +246,7 @@ public class ReleaseWaresController {
 		if(!keyWord.equals("")) {
 			wrapper.like("ware_name", keyWord).or().like("ware_remark", keyWord).andNew();
 		}
-		wrapper.in("ware_ident", idents);
+		wrapper.eq("is_show","展示").in("ware_ident", idents);
 		List<ReleaseWares> list = releSer.selectList(wrapper);
 		return list;
 	}
@@ -269,9 +276,9 @@ public class ReleaseWaresController {
 	 * */
 	@RequestMapping(value="/getAftersIndex",method=RequestMethod.GET)
 	@ResponseBody
-	public List<Map<String, Object>> getAftersIndex() {
-		Page<Map<String, Object>> selectMapsPage = releSer.selectMapsPage(new Page<>(1, 8), new EntityWrapper<ReleaseWares>().eq("is_appr", "是").eq("is_show", "展示"));
-		return selectMapsPage.getRecords();
+	public List<ReleaseWares> getAftersIndex() {
+		List<ReleaseWares> list = releSer.selectList(new EntityWrapper<ReleaseWares>().eq("is_appr", "是").eq("is_show", "展示").orderBy("create_time", false).last("LIMIT 8"));
+		return list;
 	}
 	
 	/**
@@ -280,9 +287,9 @@ public class ReleaseWaresController {
 	 * */
 	@RequestMapping(value="/getBeforeIndex",method=RequestMethod.GET)
 	@ResponseBody
-	public List<Map<String, Object>> getBeforeIndex() {
-		Page<Map<String, Object>> selectMapsPage = releSer.selectMapsPage(new Page<>(1, 8), new EntityWrapper<ReleaseWares>().eq("is_appr", "否").eq("is_show", "展示"));
-		return selectMapsPage.getRecords();
+	public List<ReleaseWares> getBeforeIndex() {
+		List<ReleaseWares> list = releSer.selectList( new EntityWrapper<ReleaseWares>().eq("is_appr", "否").eq("is_show", "展示").orderBy("create_time", false).last("LIMIT 8"));
+		return list;
 	}
 	
 	/**
@@ -360,7 +367,7 @@ public class ReleaseWaresController {
 			model.addAttribute("flag", "sort");
 			return "forward:/pages/wares/show-wares.jsp";
 		}
-		model.addAttribute("error", "未查询到该分类！");
+		model.addAttribute("error", "该分类还没有商品！");
 		return "forward:/pages/wares/show-wares.jsp";
 	}
 	//通过品牌id查询到所有的商品
@@ -372,7 +379,7 @@ public class ReleaseWaresController {
 			model.addAttribute("flag", "brand");
 			return "forward:/pages/wares/show-wares.jsp";
 		}
-		model.addAttribute("error", "未查询到该分类！");
+		model.addAttribute("error", "该分类还没有商品！");
 		return "forward:/pages/wares/show-wares.jsp";
 	}
 	//去往待售商品页面
@@ -390,6 +397,18 @@ public class ReleaseWaresController {
 	public String toAlreadyPage() {
 		return "/releases/stop-sale";
 	}
-	
+	//展示商品
+	@RequestMapping(value="/getByWareId/{wareId}/{ident}",method=RequestMethod.GET)
+	public String getByWareId(@PathVariable("wareId")Integer wareId,
+			@PathVariable("ident")String ident,Model model) {
+		ReleaseWares wares = releSer.selectOne(new EntityWrapper<ReleaseWares>().eq("ware_id", wareId).eq("ware_ident", ident).eq("is_show", "展示"));
+		if(wares==null) {
+			model.addAttribute("error", "未查询到商品");
+			return "forward:/pages/wares/look-info.jsp";
+		}
+		model.addAttribute("custId", wares.getCustId());
+		model.addAttribute("wareId", wares.getWareId());
+		return "forward:/pages/wares/look-info.jsp";
+	}
 }
 

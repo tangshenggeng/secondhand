@@ -40,10 +40,10 @@ public class AdminGenerateCode {
 					  .setDbColumnUnderline(true)//指定表明 字段名是否使用下划线
 					  .setNaming(NamingStrategy.underline_to_camel)//下划线转驼峰命名
 					  .setTablePrefix("tb_")
-					  .setInclude("tb_admin");//具体的表
+					  .setInclude("tb_evaluate");//具体的表
 		//包名策略配置
 		PackageConfig packageConfig = new PackageConfig();
-		packageConfig.setParent("com.xyl.admin")
+		packageConfig.setParent("com.xyl.evaluate")
 					 .setController("controller")
 					 .setEntity("beans")
 					 .setMapper("mapper")

@@ -157,7 +157,7 @@
                     
                     
                     <div class="col-lg-12">
-                        <img alt="logo" style="width: 1250px;height: 626px" src="${PATH}/pages/static/images/home-banner.jpg">
+                        <img alt="logo" style="width: 1600px;height: 801px" src="${PATH}/pages/static/images/home-banner.jpg">
                     </div>
                 </div>
                 <!-- /.row -->

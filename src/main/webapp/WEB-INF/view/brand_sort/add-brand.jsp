@@ -135,41 +135,7 @@ input[type="number"] {
 
 </body>
 	<script type="text/javascript">
-	layui.use(['layer', 'form'], function(){
-		  var layer = layui.layer
-		  ,form = layui.form;
-		  var brand_img = $("#brand_img").val()
-		  form.on('submit(*)', function(data){
-			  if(brand_img==""){
-				  layer.msg("请选择品牌LOGO",{icon:5})
-				  return false;
-			  }
-			  $.ajax({
-				  url:"${PATH}/brand/addBrand",
-				  method:"POST",
-				  contentType: "application/json",//必须指定，否则会报415错误
-			      dataType : 'json',
-			      data : JSON.stringify(data.field),//序列化复杂对象
-				  success:function(res){
-					  console.log(res)
-					  if(res.code == 100 ){
-						  layer.msg(res.extend.msg,{icon:6},function(){
-							  $("#resetForm").click();
-						  })
-					  }else{
-						  layer.msg(res.extend.msg,{icon:5},function(){
-							  $("#resetForm").click();
-						  })
-					  }
-				  },error:function(){
-					  layer.msg("系统错误！",{icon:5},function(){
-						  $("#resetForm").click();
-					  })
-				  }
-			  });
-			  return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-			});
-		});
+	
 	layui.use(['upload','layer','form'], function(){
 		 var $ = layui.jquery
 		 ,upload = layui.upload
@@ -210,7 +176,34 @@ input[type="number"] {
 		  });
 	})
 	
-	
+	layui.use(['layer', 'form'], function(){
+		  var layer = layui.layer
+		  ,form = layui.form;
+		  form.on('submit(*)', function(data){
+			  $.ajax({
+				  url:"${PATH}/brand/addBrand",
+				  method:"POST",
+				  contentType: "application/json",//必须指定，否则会报415错误
+			      dataType : 'json',
+			      data : JSON.stringify(data.field),//序列化复杂对象
+				  success:function(res){
+					  console.log(res)
+					  if(res.code == 100 ){
+						  layer.msg(res.extend.msg,{icon:6},function(){
+							  $("#resetForm").click();
+						  })
+					  }else{
+						  layer.msg(res.extend.msg,{icon:5})
+					  }
+				  },error:function(){
+					  layer.msg("系统错误！",{icon:5},function(){
+						  $("#resetForm").click();
+					  })
+				  }
+			  });
+			  return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+			});
+		});
 	</script>
 
 </html>

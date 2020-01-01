@@ -137,13 +137,16 @@
 									<td>
 										<button v-on:click="seeWareInfo(item)"
 											class="btn btn_default btn_dark button_moema icon-drop">
-											查看</button>
+											查看</button>&nbsp;&nbsp;&nbsp;&nbsp;
 										<button v-if="item.orderState === '已发货'"  v-on:click="receivingInfo(item)"
 											class="btn btn_default btn_dark button_moema icon-drop">
 											已收货</button>
 										<button v-if="item.orderState === '已收货'"  v-on:click="askRefund(item)"
 											class="btn btn_default btn_dark button_moema icon-drop">
-											申请退货</button>
+											申请退货</button>&nbsp;&nbsp;&nbsp;&nbsp;
+										<button v-if="item.orderState === '已收货'"  v-on:click="evaluateWares(item)"
+											class="btn btn_default btn_dark button_moema icon-drop">
+											评价</button>
 									</td>
 
 								</tr>
@@ -322,6 +325,30 @@
 			</form>
 		</div>
 	</div>
+	<!-- 评价 -->
+	<div style="display: none;" id="evaluateWares">
+		<div class="layui-card">
+			<form class="layui-form" style="margin: 20px 20px">
+				<input type="hidden" id="ownerId_eva" name="ownerId"/>
+				<input type="hidden" id="commentatorId_eva" name="commentatorId"/>
+				<input type="hidden" id="commentatorNick_eva" name="commentatorNick"/>
+				<input type="hidden" id="orderId_eva" name="orderId"/>
+				<div class="layui-form-item">
+					<label class="layui-form-label" style="width: 100px">评价</label>
+					<div class="layui-input-block">
+						<textarea  name="evaluateText"  required lay-verify="required"
+							placeholder="请输入" autocomplete="off" class="layui-textarea"></textarea>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<div class="layui-input-block">
+						<button class="layui-btn" lay-submit lay-filter="evaluateBtn">立即提交</button>
+						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 	<script src="${PATH}/pages/static/js/jquery.2.2.3.min.js"></script>
 	<script src="${PATH}/pages/static/js/bootstrap.min.js"></script>
 	<script src="${PATH}/pages/static/js/bootsnav.js"></script>
@@ -445,6 +472,25 @@
 						  layer.close(index);
 					});    
 				},
+				//评价
+				evaluateWares:function(item){
+					$("#ownerId_eva").val(item.ownerId)
+					$("#commentatorId_eva").val(item.originatorId)
+					$("#commentatorNick_eva").val(item.originatorNick)
+					$("#orderId_eva").val(item.orderId)
+					var index = layer.open({
+						title : '评价',
+						fix : true,
+						resize : false,
+						move : false,
+						zIndex : 500,
+						area: ['600px','250px'],
+						shadeClose : false,
+						shade : 0.4,
+						type : 1,
+						content : $('#evaluateWares')
+					});
+				}
 		}
 	});
 	//卖
@@ -559,11 +605,16 @@
 	});
 </script>
 <script type="text/javascript">
-layui.use('form', function(){
-	  var form = layui.form;
+layui.use(['form','layer'], function(){
+	  var form = layui.form
+	  layer=layui.layer;
+	  var id = "${sessionScope.id}"
+		if(id==""){
+			layer.msg("登录超时！请重新登录！")
+			return false;
+		}
 	  //监听提交
 	  form.on('submit(expressInfoBtn)', function(data){
-	    console.log(data.field)
 	    var data = data.field;
 	    $.ajax({
 			url:"${PATH}/order/expressInfo",	    	
@@ -585,13 +636,44 @@ layui.use('form', function(){
 	    return false;
 	  });
 	});
-layui.use('form', function(){
-	  var form = layui.form;
+layui.use(['form','layer'], function(){
+	  var form = layui.form
+	  layer=layui.layer;
+	  var id = "${sessionScope.id}"
+		if(id==""){
+			layer.msg("登录超时！请重新登录！")
+			return false;
+		}
 	  //监听提交
 	  form.on('submit(askRefundBtn)', function(data){
 		  var data = data.field;
 		    $.ajax({
 				url:"${PATH}/order/askRefund",	    	
+				method:"post",
+				data:data,
+				success:function(res){
+					console.log(res)
+					if(res.code==100){
+						layer.msg(res.extend.msg,{icon:6},function(){
+							location.reload(true)  
+						})
+					}else{
+						layer.msg(res.extend.msg,{icon:5})
+					}
+				},error:function(){
+					layer.msg("系统错误！")
+				}
+		    });
+		    return false;
+	  });
+	});
+layui.use('form', function(){
+	  var form = layui.form;
+	  //监听提交
+	  form.on('submit(evaluateBtn)', function(data){
+		  var data = data.field;
+		    $.ajax({
+				url:"${PATH}/evaluate/addEvaluate",	    	
 				method:"post",
 				data:data,
 				success:function(res){

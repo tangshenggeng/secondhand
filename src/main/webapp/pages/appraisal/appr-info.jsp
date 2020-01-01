@@ -815,7 +815,7 @@ function renderTb(){
 </script>
 <script type="text/html" id="barDemo">
   <a class="layui-btn layui-btn-xs" lay-event="detail">查看</a>
-  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="really">真品</a>
+  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="really">正品</a>
   <a class="layui-btn layui-btn-xs  layui-btn-danger" lay-event="fake">假货</a>
 </script>
 </html>

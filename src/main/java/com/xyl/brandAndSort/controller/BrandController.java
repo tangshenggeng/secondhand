@@ -143,6 +143,9 @@ public class BrandController {
 		}
 		String isShow = (String) map.get("isShow");
 		String brandLogo = (String) map.get("brandLogo");
+		if(brandLogo.equals("")) {
+			return Msg.fail().add("msg","请添加品牌logo");
+		}
 		String brandIntroduce = (String) map.get("brandIntroduce");
 		String brandWeight = (String) map.get("brandWeight");
 		int weight = Integer.parseInt(brandWeight);
